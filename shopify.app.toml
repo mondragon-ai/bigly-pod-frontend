@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://author-neither-spare-named.trycloudflare.com"
+application_url = "https://agricultural-expenditures-tales-viii.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://author-neither-spare-named.trycloudflare.com/auth/callback",
-  "https://author-neither-spare-named.trycloudflare.com/auth/shopify/callback",
-  "https://author-neither-spare-named.trycloudflare.com/api/auth/callback"
+  "https://agricultural-expenditures-tales-viii.trycloudflare.com/auth/callback",
+  "https://agricultural-expenditures-tales-viii.trycloudflare.com/auth/shopify/callback",
+  "https://agricultural-expenditures-tales-viii.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

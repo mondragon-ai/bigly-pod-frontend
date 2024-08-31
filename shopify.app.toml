@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://agricultural-expenditures-tales-viii.trycloudflare.com"
+application_url = "https://chances-former-hart-modeling.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://agricultural-expenditures-tales-viii.trycloudflare.com/auth/callback",
-  "https://agricultural-expenditures-tales-viii.trycloudflare.com/auth/shopify/callback",
-  "https://agricultural-expenditures-tales-viii.trycloudflare.com/api/auth/callback"
+  "https://chances-former-hart-modeling.trycloudflare.com/auth/callback",
+  "https://chances-former-hart-modeling.trycloudflare.com/auth/shopify/callback",
+  "https://chances-former-hart-modeling.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -1,6 +1,3 @@
-import { Layout, Page, EmptyState, Banner } from "@shopify/polaris";
-import { Suspense, useCallback, useEffect, useState } from "react";
-import { useAppBridge } from "@shopify/app-bridge-react";
 import {
   Await,
   FetcherWithComponents,
@@ -8,13 +5,16 @@ import {
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
-import { ErrorStateProps, ResponseProp } from "./lib/types/shared";
-import { LoadingSkeleton } from "./components/skeleton";
-import { MockupDocument } from "./lib/types/mockups";
 import { MockupList } from "./components/mockups";
 import { Footer } from "./components/layout/Footer";
-import { mockupsAction, mockupsLoader } from "./models/mockups.server";
+import { MockupDocument } from "./lib/types/mockups";
+import { LoadingSkeleton } from "./components/skeleton";
+import { useAppBridge } from "@shopify/app-bridge-react";
 import { bulkDeleteMockupCallback } from "./services/mockups";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { ErrorStateProps, ResponseProp } from "./lib/types/shared";
+import { Layout, Page, EmptyState, Banner } from "@shopify/polaris";
+import { mockupsAction, mockupsLoader } from "./models/mockups.server";
 
 export const loader = mockupsLoader;
 export const action = mockupsAction;
@@ -22,12 +22,12 @@ export const action = mockupsAction;
 export type FetcherProp = FetcherWithComponents<ResponseProp>;
 
 export default function MockupsPage() {
+  const fetcher = useFetcher<typeof action>() as FetcherProp;
+  const [error, setError] = useState<ErrorStateProps>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const data = useLoaderData<typeof loader>();
   const shopify = useAppBridge();
   const navigate = useNavigate();
-  const data = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>() as FetcherProp;
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<ErrorStateProps>(null);
 
   const handleDelete = useCallback(
     async (ids: string[]) => {

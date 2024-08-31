@@ -1,5 +1,5 @@
 import { authenticate } from "~/shopify.server";
-import { SERVER_BASE_URL } from "../lib/constants";
+// import { SERVER_BASE_URL } from "../lib/constants";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { AnalyticsProps } from "../lib/types/analytics";
 

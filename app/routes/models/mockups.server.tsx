@@ -6,9 +6,9 @@ import {
   TypedResponse,
 } from "@remix-run/node";
 import { authenticate } from "~/shopify.server";
-import { MockupDocument } from "../lib/types/mockups";
 import { SERVER_BASE_URL } from "../lib/constants";
 import { ResponseProp } from "../lib/types/shared";
+import { MockupDocument } from "../lib/types/mockups";
 import { Address, OrderDocument } from "../lib/types/orders";
 
 // ! ================================================================

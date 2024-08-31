@@ -27,7 +27,6 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
         </div>
       );
     }
-    console.log({ type, color });
     return (
       <div className={styles.colorCatalog} key={color}>
         <div
@@ -47,48 +46,79 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
         <div style={{ position: "absolute", top: 10, left: 10, zIndex: 100 }}>
           <Badge tone="success">{capitalizeEachWord(hat.type)}</Badge>
         </div>
-        <img src={hat.image} alt={hat.name} height={200} width={200} />
-        <div className={styles.cardContent}>
-          <InlineGrid
-            gap="400"
-            columns={{ xs: 2, sm: 2, md: 5, lg: 5, xl: 5 }}
-            alignItems="start"
-          >
-            <CatalogInfo title="Price" content={hat.price} />
-            <CatalogInfo
-              title="Shipping"
-              content="From $3.99"
-              subContent="Depends on the shipping address price may vary"
-              magic
-            />
-            <CatalogInfo
-              title="Avg. Production Time"
-              content="🇺🇸 7 - 10 days"
-              subContent="🌎 10 - 18 days"
-            />
-            <CatalogInfo title="Sizes" content="One Size" />
-            <div
-              className={styles.catalogInfo}
-              style={{ paddingRight: "1rem" }}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+          }}
+        >
+          <img
+            src={hat.image}
+            alt={hat.name}
+            height={200}
+            width={200}
+            style={{ minWidth: 200, minHeight: 200, objectFit: "scale-down" }}
+          />
+          <div className={styles.cardContent}>
+            <InlineGrid
+              gap="400"
+              columns={{ xs: 2, sm: 2, md: 5, lg: 5, xl: 5 }}
+              alignItems="start"
             >
-              <BlockStack gap="400">
-                <Text as="h6" variant="headingXs" tone="subdued">
-                  Colors - {hat.colors.length}
-                </Text>
-                <div className={styles.colorGridCatalog}>
-                  {hat.colors.map(renderColorSwatch)}
-                </div>
-              </BlockStack>
-            </div>
-          </InlineGrid>
-          <Text
-            as="h4"
-            variant="headingXs"
-            fontWeight="regular"
-            tone="magic-subdued"
-          >
-            {hat.name}
-          </Text>
+              <CatalogInfo title="Price" content={hat.price} />
+              <CatalogInfo
+                title="Shipping"
+                content="From $3.99"
+                subContent="Depends on the shipping address price may vary"
+                magic
+              />
+              <CatalogInfo
+                title="Avg. Production Time"
+                content="🇺🇸 7 - 10 days"
+                subContent="🌎 10 - 18 days"
+              />
+              {/* <CatalogInfo title="Sizes" content="One Size" /> */}
+              <div
+                className={styles.catalogInfo}
+                style={{ paddingRight: "1rem" }}
+              >
+                <BlockStack gap="400">
+                  <Text as="h6" variant="headingXs" tone="subdued">
+                    Sizes
+                  </Text>
+                  <div className={styles.colorGridCatalog}>
+                    {hat.sizes.map((s, i) => (
+                      <Text as="h6" variant="headingXs" tone="subdued">
+                        {`${s.toLocaleLowerCase()}${i == hat.sizes.length - 1 ? "" : ","}`}
+                      </Text>
+                    ))}
+                  </div>
+                </BlockStack>
+              </div>
+              <div
+                className={styles.catalogInfo}
+                style={{ paddingRight: "1rem" }}
+              >
+                <BlockStack gap="400">
+                  <Text as="h6" variant="headingXs" tone="subdued">
+                    Colors - {hat.colors.length}
+                  </Text>
+                  <div className={styles.colorGridCatalog}>
+                    {hat.colors.map(renderColorSwatch)}
+                  </div>
+                </BlockStack>
+              </div>
+            </InlineGrid>
+            <Text
+              as="h4"
+              variant="headingXs"
+              fontWeight="regular"
+              tone="magic-subdued"
+            >
+              {hat.name}
+            </Text>
+          </div>
         </div>
       </div>
     </Card>

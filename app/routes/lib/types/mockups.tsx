@@ -1,6 +1,7 @@
 export type MockupDocument = {
   id: string;
   domain: string;
+  brand: MockupBrands;
   access_token: string;
   shop_name: string;
   design_url: string;
@@ -38,6 +39,7 @@ export type MockupPosition = {
 };
 
 export type MockupTypes = "hoodie" | "shirt";
+export type MockupBrands = "";
 
 // !  Hat Data Types
 // ! ========================================
@@ -45,7 +47,9 @@ export type MockupTypes = "hoodie" | "shirt";
 export type MockupDataProps = {
   name: string;
   type: MockupTypes;
+  brand: MockupBrands;
   colors: string[];
+  sizes: string[];
   details: string[];
   features: string;
   material: string;

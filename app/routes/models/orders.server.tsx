@@ -4,9 +4,9 @@ import {
   LoaderFunctionArgs,
   redirect,
 } from "@remix-run/node";
+import { authenticate } from "~/shopify.server";
 import { ResponseProp } from "../lib/types/shared";
 import { SERVER_BASE_URL } from "../lib/constants";
-import { authenticate } from "~/shopify.server";
 import { OrderDocument } from "../lib/types/orders";
 
 // ! ================================================================

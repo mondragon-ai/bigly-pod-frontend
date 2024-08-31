@@ -197,23 +197,23 @@ export async function orderLoader({ request, params }: LoaderFunctionArgs) {
   const admin = await authenticate.admin(request);
 
   try {
-    const response = await fetch(
-      `${SERVER_BASE_URL}/store/${admin.session.shop}/orders?id=${params.id}`,
-    );
+    // const response = await fetch(
+    //   `${SERVER_BASE_URL}/store/${admin.session.shop}/orders?id=${params.id}`,
+    // );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch order data");
-    }
+    // if (!response.ok) {
+    //   throw new Error("Failed to fetch order data");
+    // }
 
-    const data = (await response.json()) as {
-      text: string;
-      orders: OrderDocument[];
-    };
+    // const data = (await response.json()) as {
+    //   text: string;
+    //   orders: OrderDocument[];
+    // };
 
     return json({
       shop: admin.session.shop,
       params,
-      order: data.orders[0] || null,
+      order: null,
       id: params.id,
     });
   } catch (error) {

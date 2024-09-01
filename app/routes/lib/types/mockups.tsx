@@ -39,7 +39,7 @@ export type MockupPosition = {
 };
 
 export type MockupTypes = "hoodie" | "shirt";
-export type MockupBrands = "";
+export type MockupBrands = "GILDEN";
 
 // !  Hat Data Types
 // ! ========================================
@@ -54,7 +54,6 @@ export type MockupDataProps = {
   features: string;
   material: string;
   image: string;
-  sample: string;
   delivery: string;
   price: string;
   title: string;

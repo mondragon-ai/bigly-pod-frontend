@@ -32,3 +32,11 @@ export function generateRandomString(length: number, type: string): string {
 
   return "POD-" + `-${type.toLocaleUpperCase().replaceAll("_", "-")}`;
 }
+
+export const getRandomURL = (quarterTurns: {
+  [key: string]: string;
+}): string => {
+  const urls = Object.values(quarterTurns);
+  const randomIndex = Math.floor(Math.random() * urls.length);
+  return urls[randomIndex];
+};

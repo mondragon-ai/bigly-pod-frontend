@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://choir-stuffed-tourism-ppc.trycloudflare.com"
+application_url = "https://nam-proteins-connecticut-preferred.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://choir-stuffed-tourism-ppc.trycloudflare.com/auth/callback",
-  "https://choir-stuffed-tourism-ppc.trycloudflare.com/auth/shopify/callback",
-  "https://choir-stuffed-tourism-ppc.trycloudflare.com/api/auth/callback"
+  "https://nam-proteins-connecticut-preferred.trycloudflare.com/auth/callback",
+  "https://nam-proteins-connecticut-preferred.trycloudflare.com/auth/shopify/callback",
+  "https://nam-proteins-connecticut-preferred.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

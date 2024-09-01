@@ -3,6 +3,7 @@ import styles from "./Home.module.css";
 import { useNavigate } from "@remix-run/react";
 import { MockupTypes } from "~/routes/lib/types/mockups";
 import { mockup_data } from "~/routes/lib/data/mockups";
+import { getRandomURL } from "~/routes/lib/util/mockups";
 
 export const FeaturedProducts = () => {
   return (
@@ -12,9 +13,10 @@ export const FeaturedProducts = () => {
           Featured Products
         </Text>
         <InlineGrid gap="400" columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}>
-          <ProductCard type="hoodie" bestSeller />
+          <ProductCard type="hoodie" badge={"MOST"} />
           <ProductCard type="shirt" />
-          <ProductCard type="hoodie" bestSeller />
+          <ProductCard type="hoodie" badge={"BEST"} />
+          <ProductCard type="shirt" badge={"MOST"} />
         </InlineGrid>
       </BlockStack>
     </Card>
@@ -23,12 +25,13 @@ export const FeaturedProducts = () => {
 
 interface ProductCardProps {
   type: MockupTypes;
-  bestSeller?: boolean;
+  badge?: "BEST" | "MOST";
 }
 
-export const ProductCard = ({ type, bestSeller }: ProductCardProps) => {
+export const ProductCard = ({ type, badge }: ProductCardProps) => {
   const navigate = useNavigate();
-  const { image, title, delivery, price } = mockup_data[type];
+  const { quarter_turns, title, delivery, price } = mockup_data[type];
+  const url = getRandomURL(quarter_turns);
 
   return (
     <div
@@ -36,7 +39,13 @@ export const ProductCard = ({ type, bestSeller }: ProductCardProps) => {
       className={styles.productCard}
     >
       <div className={styles.mediaContainer}>
-        <img src={image} alt={title} height={200} width={200} />
+        <img
+          src={url}
+          alt={title}
+          height={200}
+          width={200}
+          style={{ objectFit: "contain", padding: "1rem" }}
+        />
       </div>
       <div className={styles.textContainer}>
         <BlockStack gap={"200"}>
@@ -51,9 +60,11 @@ export const ProductCard = ({ type, bestSeller }: ProductCardProps) => {
           </Text>
         </BlockStack>
       </div>
-      {bestSeller && (
+      {badge && (
         <div className={styles.badgeContainer}>
-          <Badge tone="success">Best Seller</Badge>
+          <Badge tone="success">
+            {badge == "BEST" ? "Best Seller" : "Most Popular"}
+          </Badge>
         </div>
       )}
     </div>

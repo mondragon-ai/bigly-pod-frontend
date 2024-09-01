@@ -2,42 +2,71 @@ import { MockupDataType } from "../types/mockups";
 
 export const mockup_data: MockupDataType = {
   hoodie: {
-    name: "",
-    brand: "",
+    name: "Hoodies",
+    brand: "GILDEN",
     type: "hoodie",
     colors: ["BLUE", "GRAY", "GREEN", "BLACK", "WHITE"],
     sizes: ["SMALL", "MEDIUM", "LARGE", "XL", "2XL", "3XL"],
-    details: [],
-    features: "",
-    material: "",
+    details: [
+      "Premium Cotton/Poly for Maximum Softness",
+      "Classic fit for Max Comfort",
+      "Unisex fit for both men & women",
+      "Proudly designed, printed, & shipped in the USA",
+    ],
+    material: `100% Cotton \n Soft and comfortable \n Relaxed fit for a casual look`,
+    features: `Classic t-shirt \n Machine wash friendly \n Comfortable for all-day wear`,
     image:
       "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/white_hoodie.png?v=1688134616",
-    sample:
-      "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/white_hoodie.png?v=1688134616",
-    delivery: "",
-    price: "",
-    title: "",
-    cost: 0,
-    quarter_turns: {},
+    delivery: "🇺🇸 Estimated Delivery 7 - 10 days",
+    price: "$20.00 - $30.50",
+    title: "Hoodies",
+    cost: 11,
+    quarter_turns: {
+      ["BLACK"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_hoodie.png?v=1688134615",
+      ["WHITE"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/white_hoodie.png?v=1688134616",
+      ["BLUE"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/navy_hoodie.png?v=1688134616",
+      ["GREEN"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/green_hoodie_w_drawstrings.png?v=1688133011",
+      ["GRAY"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/hgrey_hoodie.png?v=1688138135",
+    },
   },
   shirt: {
-    name: "",
-    brand: "",
+    name: "Shirts",
+    brand: "GILDEN",
     type: "shirt",
     colors: ["BLUE", "GRAY", "GREEN", "BLACK", "WHITE"],
     sizes: ["SMALL", "MEDIUM", "LARGE", "XL", "2XL", "3XL", "4XL", "5XL"],
-    details: [],
-    features: "",
-    material: "",
+
+    details: [
+      "100% Cotton for Maximum Softness",
+      'Modern fit for Max Comfort, order a size up for a more "loose" fit',
+      "Unisex fit for both men & women",
+      "Proudly designed, printed, & shipped in the USA",
+    ],
+    material: `100% Cotton \n Soft and comfortable \n Relaxed fit for a casual look`,
+    features: `Classic t-shirt \n Machine wash friendly \n Comfortable for all-day wear`,
     image:
       "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/green_front.png?v=1687985193",
-    sample:
-      "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/green_front.png?v=1687985193",
-    delivery: "",
-    price: "",
-    title: "",
-    cost: 0,
-    quarter_turns: {},
+    delivery: "🇺🇸 Estimated Delivery 7 - 10 days",
+    price: "$11.00 - $22.75",
+    title: "Shirt",
+    cost: 20,
+    quarter_turns: {
+      ["BLACK"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_front.png?v=1687985191",
+      ["WHITE"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/tshirt.png?v=1687918758",
+      ["BLUE"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/blue_front.png?v=1687985192",
+      ["GREEN"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/green_front.png?v=1687985193",
+      ["GRAY"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/gray_front.png?v=1687985193",
+    },
   },
 };
 

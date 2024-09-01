@@ -9,6 +9,7 @@ import {
 } from "@shopify/polaris";
 import styles from "./Home.module.css";
 import { useCallback, useState } from "react";
+import { PRODUCT_PLACEHODLER } from "~/routes/lib/constants";
 import { formatToMoney } from "~/routes/lib/formatters/numbers";
 
 export const ProFroma = () => {
@@ -26,8 +27,11 @@ export const ProFroma = () => {
       >
         <div className={styles.imageContainer}>
           <img
-            src="https://cdn.shopify.com/s/files/1/0783/4802/6165/files/MidStructuredPolyesterCap.webp?v=1722090003"
+            src={PRODUCT_PLACEHODLER}
             alt=""
+            style={{
+              padding: "1rem",
+            }}
           />
         </div>
         <div className={styles.proFormaContainer}>
@@ -36,14 +40,14 @@ export const ProFroma = () => {
           </Text>
           <Divider borderColor="transparent" borderWidth="100" />
           <Text as="p" variant="bodyMd">
-            Your cost for the hat starts at{" "}
+            Your cost for the hoodies starts at{" "}
             <Text
               as="strong"
               variant="bodyMd"
               fontWeight="semibold"
               tone="magic"
             >
-              $30.00
+              $20.00
             </Text>
           </Text>
           <SellFor setForm={setForm} form={form} />

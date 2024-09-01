@@ -106,6 +106,7 @@
   height: 200px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  border-bottom: 1px solid rgb(234, 234, 234);
 }
 
 .productCard .mediaContainer img {

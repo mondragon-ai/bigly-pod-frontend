@@ -4,10 +4,12 @@ import { MockupTypes } from "~/routes/lib/types/mockups";
 import { mockup_data } from "~/routes/lib/data/mockups";
 import { capitalizeEachWord } from "~/routes/lib/formatters/text";
 import { Badge, BlockStack, Card, InlineGrid, Text } from "@shopify/polaris";
+import { getRandomURL } from "~/routes/lib/util/mockups";
 
 export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
   const navigate = useNavigate();
-  const hat = mockup_data[type as MockupTypes];
+  const mockup = mockup_data[type as MockupTypes];
+  const url = getRandomURL(mockup.quarter_turns);
 
   const renderColorSwatch = (color: string) => {
     if (color.includes("/")) {
@@ -44,7 +46,7 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
         onClick={() => navigate(`/app/generator/${type}`)}
       >
         <div style={{ position: "absolute", top: 10, left: 10, zIndex: 100 }}>
-          <Badge tone="success">{capitalizeEachWord(hat.type)}</Badge>
+          <Badge tone="success">{capitalizeEachWord(mockup.type)}</Badge>
         </div>
         <div
           style={{
@@ -54,11 +56,16 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
           }}
         >
           <img
-            src={hat.image}
-            alt={hat.name}
+            src={url}
+            alt={mockup.name}
             height={200}
             width={200}
-            style={{ minWidth: 200, minHeight: 200, objectFit: "scale-down" }}
+            style={{
+              minWidth: 200,
+              minHeight: 200,
+              objectFit: "scale-down",
+              padding: "1rem",
+            }}
           />
           <div className={styles.cardContent}>
             <InlineGrid
@@ -66,7 +73,7 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
               columns={{ xs: 2, sm: 2, md: 5, lg: 5, xl: 5 }}
               alignItems="start"
             >
-              <CatalogInfo title="Price" content={hat.price} />
+              <CatalogInfo title="Price" content={mockup.price} />
               <CatalogInfo
                 title="Shipping"
                 content="From $3.99"
@@ -88,9 +95,9 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
                     Sizes
                   </Text>
                   <div className={styles.colorGridCatalog}>
-                    {hat.sizes.map((s, i) => (
+                    {mockup.sizes.map((s, i) => (
                       <Text as="h6" variant="headingXs" tone="subdued">
-                        {`${s.toLocaleLowerCase()}${i == hat.sizes.length - 1 ? "" : ","}`}
+                        {`${s.toLocaleLowerCase()}${i == mockup.sizes.length - 1 ? "" : ","}`}
                       </Text>
                     ))}
                   </div>
@@ -102,10 +109,10 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
               >
                 <BlockStack gap="400">
                   <Text as="h6" variant="headingXs" tone="subdued">
-                    Colors - {hat.colors.length}
+                    Colors - {mockup.colors.length}
                   </Text>
                   <div className={styles.colorGridCatalog}>
-                    {hat.colors.map(renderColorSwatch)}
+                    {mockup.colors.map(renderColorSwatch)}
                   </div>
                 </BlockStack>
               </div>
@@ -116,7 +123,7 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
               fontWeight="regular"
               tone="magic-subdued"
             >
-              {hat.name}
+              {mockup.name}
             </Text>
           </div>
         </div>

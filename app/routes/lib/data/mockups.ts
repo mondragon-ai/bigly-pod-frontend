@@ -1,10 +1,10 @@
-import { MockupDataType } from "../types/mockups";
+import { MockupDataType, MockupDocument } from "../types/mockups";
 
 export const mockup_data: MockupDataType = {
-  hoodie: {
+  hoodie_lane_7: {
     name: "Hoodies",
-    brand: "GILDEN",
-    type: "hoodie",
+    brand: "LANE_7",
+    type: "hoodie_lane_7",
     colors: ["BLUE", "GRAY", "GREEN", "BLACK", "WHITE"],
     sizes: ["SMALL", "MEDIUM", "LARGE", "XL", "2XL", "3XL"],
     details: [
@@ -34,10 +34,10 @@ export const mockup_data: MockupDataType = {
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/hgrey_hoodie.png?v=1688138135",
     },
   },
-  shirt: {
+  shirt_gilden: {
     name: "Shirts",
     brand: "GILDEN",
-    type: "shirt",
+    type: "shirt_gilden",
     colors: ["BLUE", "GRAY", "GREEN", "BLACK", "WHITE"],
     sizes: ["SMALL", "MEDIUM", "LARGE", "XL", "2XL", "3XL", "4XL", "5XL"],
 
@@ -115,3 +115,40 @@ export const hoodie_colors = [
     color: "GRAY",
   },
 ];
+
+export const mockup_dummy: MockupDocument = {
+  design_url: "",
+  base_sku: "SKU123456",
+  title: "",
+  colors: [],
+  sizes: ["OSFA"],
+  blank_image:
+    "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/RetroTruckerCap.webp?v=1722090003",
+  type: "shirt_gilden",
+  cost: 35.0,
+  dimension: {
+    original_width: 0,
+    original_height: 0,
+    resized_height: 0,
+    resized_width: 0,
+    blank_width: 1200,
+    blank_height: 1200,
+  },
+  position: {
+    top: 0,
+    left: 0,
+  },
+  resized_design: "https://example.com/resized_design.png",
+  id: "",
+  domain: "",
+  access_token: "",
+  shop_name: "",
+  state: 0,
+  created_at: undefined,
+  updated_at: undefined,
+  mockup_urls: [],
+  status: "DEACTIVE",
+  product_id: "",
+  original_file: null,
+  brand: "LANE_7",
+};

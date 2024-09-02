@@ -6,7 +6,11 @@ import { capitalizeEachWord } from "~/routes/lib/formatters/text";
 import { Badge, BlockStack, Card, InlineGrid, Text } from "@shopify/polaris";
 import { getRandomURL } from "~/routes/lib/util/mockups";
 
-export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
+export const CatalogCard = ({
+  type = "hoodie_lane_7",
+}: {
+  type: MockupTypes;
+}) => {
   const navigate = useNavigate();
   const mockup = mockup_data[type as MockupTypes];
   const url = getRandomURL(mockup.quarter_turns);
@@ -43,7 +47,11 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
     <Card padding="0">
       <div
         className={styles.catalogCardWrapper}
-        onClick={() => navigate(`/app/generator/${type}`)}
+        onClick={() =>
+          navigate(
+            `/app/generator/${type.split("_")[0]}-${type.split("_").slice(1).join("-")}`,
+          )
+        }
       >
         <div style={{ position: "absolute", top: 10, left: 10, zIndex: 100 }}>
           <Badge tone="success">{capitalizeEachWord(mockup.brand)}</Badge>

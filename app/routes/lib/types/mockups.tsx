@@ -38,10 +38,10 @@ export type MockupPosition = {
   left: number;
 };
 
-export type MockupTypes = "hoodie" | "shirt";
-export type MockupBrands = "GILDEN";
+export type MockupTypes = "shirt_gilden" | "hoodie_lane_7";
+export type MockupBrands = "GILDEN" | "LANE_7";
 
-// !  Hat Data Types
+// !  Mockup Data Types
 // ! ========================================
 
 export type MockupDataProps = {
@@ -65,4 +65,47 @@ export type MockupDataProps = {
 
 export type MockupDataType = {
   [key in MockupTypes]: MockupDataProps;
+};
+
+// !  Mockup Generator Types
+// ! ========================================
+
+export type MockupResponseType = {
+  error: boolean;
+  mockups: {
+    design_id: string;
+    urls: {
+      url: string;
+      alt: string;
+    }[];
+  };
+  text: string;
+};
+
+export type GeneratorStateProps = MockupDocument & {
+  original_file: null | File;
+  resized_design: string;
+  progress: number;
+};
+
+export type MockupRequestBody = {
+  design_url: string;
+  base_sku: string;
+  title: string;
+  colors: string[];
+  sizes: string[];
+  type: MockupTypes;
+  cost: number;
+  dimension: {
+    original_width: number;
+    original_height: number;
+    resized_height: number;
+    resized_width: number;
+    blank_width: number;
+    blank_height: number;
+  };
+  position: {
+    top: number;
+    left: number;
+  };
 };

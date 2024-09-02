@@ -20,4 +20,4 @@ export default function GeneratorPage() {
   );
 }
 
-export const MockupTypeList = ["shirt", "hoodie"];
+export const MockupTypeList = ["shirt_gilden", "hoodie_lane_7"];

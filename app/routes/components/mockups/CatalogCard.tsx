@@ -46,7 +46,7 @@ export const CatalogCard = ({ type = "hoodie" }: { type: MockupTypes }) => {
         onClick={() => navigate(`/app/generator/${type}`)}
       >
         <div style={{ position: "absolute", top: 10, left: 10, zIndex: 100 }}>
-          <Badge tone="success">{capitalizeEachWord(mockup.type)}</Badge>
+          <Badge tone="success">{capitalizeEachWord(mockup.brand)}</Badge>
         </div>
         <div
           style={{

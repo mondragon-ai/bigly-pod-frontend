@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://nam-proteins-connecticut-preferred.trycloudflare.com"
+application_url = "https://discounts-rate-findlaw-command.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://nam-proteins-connecticut-preferred.trycloudflare.com/auth/callback",
-  "https://nam-proteins-connecticut-preferred.trycloudflare.com/auth/shopify/callback",
-  "https://nam-proteins-connecticut-preferred.trycloudflare.com/api/auth/callback"
+  "https://discounts-rate-findlaw-command.trycloudflare.com/auth/callback",
+  "https://discounts-rate-findlaw-command.trycloudflare.com/auth/shopify/callback",
+  "https://discounts-rate-findlaw-command.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

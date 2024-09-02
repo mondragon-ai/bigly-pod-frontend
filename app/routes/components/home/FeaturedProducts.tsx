@@ -13,10 +13,10 @@ export const FeaturedProducts = () => {
           Featured Products
         </Text>
         <InlineGrid gap="400" columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}>
-          <ProductCard type="hoodie" badge={"MOST"} />
-          <ProductCard type="shirt" />
-          <ProductCard type="hoodie" badge={"BEST"} />
-          <ProductCard type="shirt" badge={"MOST"} />
+          <ProductCard type="hoodie_lane_7" badge={"MOST"} />
+          <ProductCard type="shirt_gilden" />
+          <ProductCard type="hoodie_lane_7" badge={"BEST"} />
+          <ProductCard type="shirt_gilden" badge={"MOST"} />
         </InlineGrid>
       </BlockStack>
     </Card>

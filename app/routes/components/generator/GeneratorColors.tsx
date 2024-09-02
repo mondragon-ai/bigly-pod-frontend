@@ -61,7 +61,11 @@ export const GeneratorColors = ({ mockup, setMockup }: ColorsProps) => {
                       </div>
                     ) : null}
                     <img
-                      style={{ height: "25px", width: "25px" }}
+                      style={{
+                        height: "25px",
+                        width: "25px",
+                        objectFit: "contain",
+                      }}
                       src={mockup_data[mockup.type].quarter_turns[color]}
                       alt={color}
                     />

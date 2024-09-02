@@ -27,28 +27,62 @@ export const GeneratorDimensions = ({
   mockup: MockupDocument;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
 }) => {
+  const width =
+    mockup.type == "hoodie_lane_7"
+      ? 200
+      : mockup.type == "shirt_gilden"
+        ? 225
+        : 200;
+
+  const height =
+    mockup.type == "hoodie_lane_7"
+      ? 200
+      : mockup.type == "shirt_gilden"
+        ? 200
+        : 400;
+
   const handleWidthChange = useCallback(
     (value: string) => {
-      setMockup((prevMockup) => ({
-        ...prevMockup,
-        dimension: {
-          ...prevMockup.dimension,
-          resized_width: Number(value) <= 225 ? Number(value) : 225,
-        },
-      }));
+      setMockup((prevMockup) => {
+        const newWidth = Number(value);
+        const aspectRatio =
+          prevMockup.dimension.resized_height /
+          prevMockup.dimension.resized_width;
+        const neHeight = Math.round(newWidth * aspectRatio);
+        return {
+          ...prevMockup,
+          dimension: {
+            ...prevMockup.dimension,
+            resized_width:
+              newWidth <= width || neHeight <= height ? newWidth : newWidth,
+            resized_height:
+              neHeight <= height || newWidth <= width ? neHeight : height,
+          },
+        };
+      });
     },
     [setMockup],
   );
 
   const handleHeightChange = useCallback(
     (value: string) => {
-      setMockup((prevMockup) => ({
-        ...prevMockup,
-        dimension: {
-          ...prevMockup.dimension,
-          resized_height: Number(value) <= 400 ? Number(value) : 400,
-        },
-      }));
+      setMockup((prevMockup) => {
+        const newHeight = Number(value);
+        const aspectRatio =
+          prevMockup.dimension.resized_width /
+          prevMockup.dimension.resized_height;
+        const newWidth = Math.round(newHeight * aspectRatio);
+        return {
+          ...prevMockup,
+          dimension: {
+            ...prevMockup.dimension,
+            resized_height:
+              newHeight <= height || newHeight <= height ? newHeight : height,
+            resized_width:
+              newWidth <= width || newHeight <= height ? newWidth : width,
+          },
+        };
+      });
     },
     [setMockup],
   );
@@ -92,7 +126,7 @@ export const GeneratorDimensions = ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        top: 400 - prevMockup.dimension.resized_height,
+        top: height - prevMockup.dimension.resized_height,
       },
     }));
   }, [setMockup]);
@@ -102,7 +136,7 @@ export const GeneratorDimensions = ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        left: 225 - prevMockup.dimension.resized_width,
+        left: width - prevMockup.dimension.resized_width,
       },
     }));
   }, [setMockup]);
@@ -112,7 +146,7 @@ export const GeneratorDimensions = ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        left: Math.round((225 - prevMockup.dimension.resized_width) / 2),
+        left: Math.round((width - prevMockup.dimension.resized_width) / 2),
       },
     }));
   }, [setMockup]);
@@ -122,7 +156,7 @@ export const GeneratorDimensions = ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        top: Math.round((400 - prevMockup.dimension.resized_height) / 2),
+        top: Math.round((height - prevMockup.dimension.resized_height) / 2),
       },
     }));
   }, [setMockup]);

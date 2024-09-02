@@ -41,7 +41,7 @@ export default function GeneratorPage() {
   const [mockup, setMockup] = useState<GeneratorStateProps>({
     ...mockup_dummy,
     base_sku: generateRandomString(5, slug),
-    type: slug,
+    type: slug.replaceAll("-", "_") as MockupTypes,
     original_file: null,
     progress: 0,
   });

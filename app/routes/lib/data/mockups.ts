@@ -21,7 +21,7 @@ export const mockup_data: MockupDataType = {
     price: "$20.00 - $30.50",
     title: "Hoodies",
     cost: 11,
-    quarter_turns: {
+    front: {
       ["BLACK"]:
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_hoodie.png?v=1688134615",
       ["WHITE"]:
@@ -32,6 +32,18 @@ export const mockup_data: MockupDataType = {
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/green_hoodie_w_drawstrings.png?v=1688133011",
       ["GRAY"]:
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/hgrey_hoodie.png?v=1688138135",
+    },
+    back: {
+      ["BLACK"]:
+        "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/black.png?v=1712154341",
+      ["WHITE"]:
+        "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/white.png?v=1712154342",
+      ["BLUE"]:
+        "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/navy.png?v=1712154342",
+      ["GREEN"]:
+        "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/olive.png?v=1712154342",
+      ["GRAY"]:
+        "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/grey.png?v=1712154342",
     },
   },
   shirt_gilden: {
@@ -55,7 +67,7 @@ export const mockup_data: MockupDataType = {
     price: "$11.00 - $22.75",
     title: "Shirt",
     cost: 20,
-    quarter_turns: {
+    front: {
       ["BLACK"]:
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_front.png?v=1687985191",
       ["WHITE"]:
@@ -66,6 +78,18 @@ export const mockup_data: MockupDataType = {
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/green_front.png?v=1687985193",
       ["GRAY"]:
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/gray_front.png?v=1687985193",
+    },
+    back: {
+      ["BLACK"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/back_black.png?v=1688057544",
+      ["WHITE"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/back_white.png?v=1688057546",
+      ["BLUE"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/back_blue.png?v=1688057546",
+      ["GREEN"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/back_green.png?v=1688057546",
+      ["GRAY"]:
+        "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/back_gray.png?v=1688057547",
     },
   },
 };
@@ -117,13 +141,16 @@ export const hoodie_colors = [
 ];
 
 export const mockup_dummy: MockupDocument = {
-  design_url: "",
-  base_sku: "SKU123456",
+  design_urls: {
+    front: "",
+    back: "",
+    sleeve: "",
+  },
+  base_sku: "",
   title: "",
   colors: [],
   sizes: ["OSFA"],
-  blank_image:
-    "https://cdn.shopify.com/s/files/1/0783/4802/6165/files/RetroTruckerCap.webp?v=1722090003",
+  blank_image: "",
   type: "shirt_gilden",
   cost: 35.0,
   dimension: {
@@ -138,7 +165,7 @@ export const mockup_dummy: MockupDocument = {
     top: 0,
     left: 0,
   },
-  resized_design: "https://example.com/resized_design.png",
+  resized_design: "",
   id: "",
   domain: "",
   access_token: "",

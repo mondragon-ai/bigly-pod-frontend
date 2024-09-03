@@ -23,9 +23,13 @@ import {
 export const GeneratorDimensions = ({
   mockup,
   setMockup,
+  isFront,
+  setFront,
 }: {
   mockup: MockupDocument;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
+  isFront: boolean;
+  setFront: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const width =
     mockup.type == "hoodie_lane_7"
@@ -38,7 +42,7 @@ export const GeneratorDimensions = ({
     mockup.type == "hoodie_lane_7"
       ? 200
       : mockup.type == "shirt_gilden"
-        ? 200
+        ? 400
         : 400;
 
   const handleWidthChange = useCallback(

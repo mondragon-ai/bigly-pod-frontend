@@ -2,8 +2,8 @@ import {
   GeneratorStateProps,
   MockupDocument,
 } from "~/routes/lib/types/mockups";
-import { useCallback } from "react";
-import { Card } from "@shopify/polaris";
+import { useCallback, useState } from "react";
+import { Button, Card } from "@shopify/polaris";
 import styles from "./Mockups.module.css";
 import { mockup_data } from "~/routes/lib/data/mockups";
 import { DraggableData, Position, ResizableDelta, Rnd } from "react-rnd";
@@ -12,23 +12,36 @@ import { HOODIE_STRING } from "~/routes/lib/constants";
 export const GeneratorMockupImageCard = ({
   mockup,
   setMockup,
+  isFront,
+  setFront,
 }: {
   mockup: MockupDocument;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
+  isFront: boolean;
+  setFront: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [strings, toggleStrings] = useState(true);
   return (
     <Card padding="200">
       <div className={styles.mockupContainer}>
         <img
-          src={mockup_data[mockup.type].image}
+          src={
+            isFront
+              ? mockup_data[mockup.type].front["WHITE"]
+              : mockup_data[mockup.type].back["WHITE"]
+          }
           alt={mockup.title}
           className={styles.mainImg}
           height="500"
           width="500"
           style={{ position: "absolute", top: 0 }}
         />
-        <DraggableResizableImage mockup={mockup} setMockup={setMockup} />
-        {mockup.type.includes("hoodie") && (
+        <DraggableResizableImage
+          mockup={mockup}
+          setMockup={setMockup}
+          front={isFront}
+        />
+        {isFront && strings && mockup.type.includes("hoodie") && (
           <img
             src={HOODIE_STRING}
             alt={mockup.title}
@@ -39,6 +52,24 @@ export const GeneratorMockupImageCard = ({
           />
         )}
       </div>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: "10px",
+          width: "97%",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Button onClick={() => setFront(!isFront)}>
+          {isFront ? "Front" : "Back"}
+        </Button>
+        {mockup.type.includes("hoodie") && (
+          <Button onClick={() => toggleStrings(!strings)}>Toggle String</Button>
+        )}
+      </div>
     </Card>
   );
 };
@@ -46,16 +77,22 @@ export const GeneratorMockupImageCard = ({
 const DraggableResizableImage = ({
   mockup,
   setMockup,
+  front,
 }: {
   mockup: MockupDocument;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
+  front: boolean;
 }) => {
   const padding_top =
-    mockup.type == "hoodie_lane_7"
+    mockup.type == "hoodie_lane_7" && front
       ? "-35px"
-      : mockup.type == "shirt_gilden"
+      : mockup.type == "shirt_gilden" && front
         ? "0px"
-        : "-50px";
+        : mockup.type == "hoodie_lane_7" && !front
+          ? "-30px"
+          : mockup.type == "shirt_gilden" && !front
+            ? "-40px"
+            : "";
 
   const width =
     mockup.type == "hoodie_lane_7"
@@ -68,7 +105,7 @@ const DraggableResizableImage = ({
     mockup.type == "hoodie_lane_7"
       ? "200px"
       : mockup.type == "shirt_gilden"
-        ? "200px"
+        ? "400px"
         : "400px";
   const handleDragStop = useCallback(
     (e: any, d: DraggableData) => {

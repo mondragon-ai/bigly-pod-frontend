@@ -9,7 +9,11 @@ export const MockupImage = ({ mockup }: { mockup: MockupDocument }) => {
         <Text as={"h4"} variant="headingMd">
           Your Design
         </Text>
-        <img src={mockup.design_url} alt="" className={styles.designImg} />
+        <img
+          src={mockup.design_urls.front || mockup.design_urls.back}
+          alt=""
+          className={styles.designImg}
+        />
       </BlockStack>
     </Card>
   );

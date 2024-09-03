@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://yards-bike-assumes-trout.trycloudflare.com"
+application_url = "https://solving-timing-built-growth.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://yards-bike-assumes-trout.trycloudflare.com/auth/callback",
-  "https://yards-bike-assumes-trout.trycloudflare.com/auth/shopify/callback",
-  "https://yards-bike-assumes-trout.trycloudflare.com/api/auth/callback"
+  "https://solving-timing-built-growth.trycloudflare.com/auth/callback",
+  "https://solving-timing-built-growth.trycloudflare.com/auth/shopify/callback",
+  "https://solving-timing-built-growth.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

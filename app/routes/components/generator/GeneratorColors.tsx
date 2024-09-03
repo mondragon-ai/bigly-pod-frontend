@@ -38,7 +38,7 @@ export const GeneratorColors = ({ mockup, setMockup }: ColorsProps) => {
           {mockup_data[mockup.type].colors &&
             mockup_data[mockup.type].colors.map(
               (color) => {
-                if (!mockup_data[mockup.type].quarter_turns[color]) {
+                if (!mockup_data[mockup.type].front[color]) {
                   return null;
                 }
                 return (
@@ -66,7 +66,7 @@ export const GeneratorColors = ({ mockup, setMockup }: ColorsProps) => {
                         width: "25px",
                         objectFit: "contain",
                       }}
-                      src={mockup_data[mockup.type].quarter_turns[color]}
+                      src={mockup_data[mockup.type].front[color]}
                       alt={color}
                     />
                   </div>

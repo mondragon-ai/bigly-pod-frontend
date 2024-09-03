@@ -4,7 +4,11 @@ export type MockupDocument = {
   brand: MockupBrands;
   access_token: string;
   shop_name: string;
-  design_url: string;
+  design_urls: {
+    front: string;
+    back: string;
+    sleeve: string;
+  };
   base_sku: string;
   title: string;
   colors: string[];
@@ -58,7 +62,10 @@ export type MockupDataProps = {
   price: string;
   title: string;
   cost: number;
-  quarter_turns: {
+  front: {
+    [key: string]: string;
+  };
+  back: {
     [key: string]: string;
   };
 };

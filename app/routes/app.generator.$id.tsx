@@ -35,6 +35,7 @@ export default function GeneratorPage() {
   const shopify = useAppBridge();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isFront, setFront] = useState(true);
   const slug = location.pathname.split("/").pop() as MockupTypes;
   const [error, setError] = useState<ErrorStateProps>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -108,7 +109,12 @@ export default function GeneratorPage() {
         </Layout.Section>
         <Layout.Section>
           <BlockStack gap="500">
-            <GeneratorMockupImageCard mockup={mockup} setMockup={setMockup} />
+            <GeneratorMockupImageCard
+              mockup={mockup}
+              setMockup={setMockup}
+              isFront={isFront}
+              setFront={setFront}
+            />
             <MockupInfo mockup={mockup} />
           </BlockStack>
         </Layout.Section>
@@ -116,8 +122,18 @@ export default function GeneratorPage() {
         <Layout.Section variant="oneThird">
           <BlockStack gap="500">
             <GeneratorColors mockup={mockup} setMockup={setMockup} />
-            <GeneratorMockupImage mockup={mockup} setMockup={setMockup} />
-            <GeneratorDimensions mockup={mockup} setMockup={setMockup} />
+            <GeneratorMockupImage
+              mockup={mockup}
+              setMockup={setMockup}
+              isFront={isFront}
+              setFront={setFront}
+            />
+            <GeneratorDimensions
+              mockup={mockup}
+              setMockup={setMockup}
+              isFront={isFront}
+              setFront={setFront}
+            />
             <GeneratorMockupDetail mockup={mockup} setMockup={setMockup} />
           </BlockStack>
         </Layout.Section>
@@ -178,7 +194,7 @@ const validateMockup = (
     });
     return false;
   }
-  if (!mockup.design_url) {
+  if (!mockup.design_urls.front) {
     setError({
       title: "Mockup Design",
       message: "Please upload a design image.",

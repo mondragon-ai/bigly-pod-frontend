@@ -13,7 +13,7 @@ export const CatalogCard = ({
 }) => {
   const navigate = useNavigate();
   const mockup = mockup_data[type as MockupTypes];
-  const url = getRandomURL(mockup.quarter_turns);
+  const url = getRandomURL(mockup.front);
 
   const renderColorSwatch = (color: string) => {
     if (color.includes("/")) {

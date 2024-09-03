@@ -48,7 +48,7 @@ export const Colors = ({ mockup, setImage, image }: ColorsProps) => {
         <div className={styles.colorGrid}>
           {mockup.colors &&
             mockup.colors.map((color) => {
-              if (!mockup_data[mockup.type].quarter_turns[color]) {
+              if (!mockup_data[mockup.type].front[color]) {
                 return null;
               }
               return (
@@ -65,7 +65,7 @@ export const Colors = ({ mockup, setImage, image }: ColorsProps) => {
                 >
                   <img
                     style={{ height: "25px", width: "25px" }}
-                    src={mockup_data[mockup.type].quarter_turns[color]}
+                    src={mockup_data[mockup.type].front[color]}
                     alt={color}
                   />
                 </div>

@@ -30,8 +30,8 @@ interface ProductCardProps {
 
 export const ProductCard = ({ type, badge }: ProductCardProps) => {
   const navigate = useNavigate();
-  const { quarter_turns, title, delivery, price } = mockup_data[type];
-  const url = getRandomURL(quarter_turns);
+  const { front, title, delivery, price } = mockup_data[type];
+  const url = getRandomURL(front);
 
   return (
     <div

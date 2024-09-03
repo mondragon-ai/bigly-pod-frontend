@@ -17,16 +17,24 @@ import { DeleteIcon } from "@shopify/polaris-icons";
 export const GeneratorMockupImage = ({
   mockup,
   setMockup,
+  isFront,
+  setFront,
 }: {
   mockup: GeneratorStateProps;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
+  isFront: boolean;
+  setFront: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [toUpload, setToUpload] = useState(true);
 
-  const handleDelete = () => {
+  const handleDelete = (type: "FRONT" | "BACK" | "SLEEVE") => {
     setMockup({
       ...mockup,
-      design_url: "",
+      design_urls: {
+        front: type == "FRONT" ? "" : mockup.design_urls.front,
+        back: type == "BACK" ? "" : mockup.design_urls.back,
+        sleeve: type == "SLEEVE" ? "" : mockup.design_urls.sleeve,
+      },
       dimension: {
         original_width: 0,
         original_height: 0,
@@ -45,7 +53,7 @@ export const GeneratorMockupImage = ({
       <BlockStack gap="400">
         <InlineGrid gap="200" alignItems="start" columns="2">
           <Text as="h4" variant="headingMd">
-            Add Your Design
+            Add {isFront ? "Font" : "Back"} Design
           </Text>
           {/* <Button
             icon={toUpload ? WandIcon : UploadIcon}
@@ -56,14 +64,26 @@ export const GeneratorMockupImage = ({
           </Button> */}
         </InlineGrid>
 
-        {mockup.design_url ? (
+        {mockup.design_urls.front && isFront ? (
           <>
             <img
-              src={mockup.design_url}
+              src={mockup.design_urls.front}
               alt="Mockup design"
               className={styles.designImg}
             />
-            <Button icon={DeleteIcon} onClick={handleDelete} />
+            <Button icon={DeleteIcon} onClick={() => handleDelete("FRONT")} />
+          </>
+        ) : (
+          toUpload && <UploadImage setMockup={setMockup} mockup={mockup} />
+        )}
+        {mockup.design_urls.back && !isFront ? (
+          <>
+            <img
+              src={mockup.design_urls.back}
+              alt="Mockup back design"
+              className={styles.designImg}
+            />
+            <Button icon={DeleteIcon} onClick={() => handleDelete("BACK")} />
           </>
         ) : (
           toUpload && <UploadImage setMockup={setMockup} mockup={mockup} />

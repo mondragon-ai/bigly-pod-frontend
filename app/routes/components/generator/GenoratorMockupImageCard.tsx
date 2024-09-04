@@ -12,13 +12,9 @@ import { HOODIE_STRING } from "~/routes/lib/constants";
 export const GeneratorMockupImageCard = ({
   mockup,
   setMockup,
-  isFront,
-  setFront,
 }: {
-  mockup: MockupDocument;
+  mockup: GeneratorStateProps;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
-  isFront: boolean;
-  setFront: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [strings, toggleStrings] = useState(true);
   return (
@@ -26,7 +22,7 @@ export const GeneratorMockupImageCard = ({
       <div className={styles.mockupContainer}>
         <img
           src={
-            isFront
+            mockup.isFront
               ? mockup_data[mockup.type].front["WHITE"]
               : mockup_data[mockup.type].back["WHITE"]
           }
@@ -36,12 +32,8 @@ export const GeneratorMockupImageCard = ({
           width="500"
           style={{ position: "absolute", top: 0 }}
         />
-        <DraggableResizableImage
-          mockup={mockup}
-          setMockup={setMockup}
-          front={isFront}
-        />
-        {isFront && strings && mockup.type.includes("hoodie") && (
+        <DraggableResizableImage mockup={mockup} setMockup={setMockup} />
+        {mockup.isFront && strings && mockup.type.includes("hoodie") && (
           <img
             src={HOODIE_STRING}
             alt={mockup.title}
@@ -63,8 +55,12 @@ export const GeneratorMockupImageCard = ({
           justifyContent: "space-between",
         }}
       >
-        <Button onClick={() => setFront(!isFront)}>
-          {isFront ? "Front" : "Back"}
+        <Button
+          onClick={() =>
+            setMockup((prev) => ({ ...prev, isFront: !mockup.isFront }))
+          }
+        >
+          {mockup.isFront ? "Front" : "Back"}
         </Button>
         {mockup.type.includes("hoodie") && (
           <Button onClick={() => toggleStrings(!strings)}>Toggle String</Button>
@@ -77,72 +73,14 @@ export const GeneratorMockupImageCard = ({
 const DraggableResizableImage = ({
   mockup,
   setMockup,
-  front,
 }: {
-  mockup: MockupDocument;
+  mockup: GeneratorStateProps;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
-  front: boolean;
 }) => {
-  const padding_top =
-    mockup.type == "hoodie_lane_7" && front
-      ? "-35px"
-      : mockup.type == "shirt_gilden" && front
-        ? "0px"
-        : mockup.type == "hoodie_lane_7" && !front
-          ? "-30px"
-          : mockup.type == "shirt_gilden" && !front
-            ? "-40px"
-            : "";
+  const { handleDragStop, handleResize } = useMockupHandlers(mockup, setMockup);
 
-  const width =
-    mockup.type == "hoodie_lane_7"
-      ? "200px"
-      : mockup.type == "shirt_gilden"
-        ? "225px"
-        : "200px";
-
-  const height =
-    mockup.type == "hoodie_lane_7"
-      ? "200px"
-      : mockup.type == "shirt_gilden"
-        ? "400px"
-        : "400px";
-  const handleDragStop = useCallback(
-    (e: any, d: DraggableData) => {
-      setMockup((prevMockup) => ({
-        ...prevMockup,
-        position: {
-          top: d.y,
-          left: d.x,
-        },
-      }));
-    },
-    [setMockup],
-  );
-
-  const handleResize = useCallback(
-    (
-      e: MouseEvent | TouchEvent,
-      direction: any,
-      ref: HTMLElement,
-      delta: ResizableDelta,
-      position: Position,
-    ) => {
-      setMockup((prevMockup) => ({
-        ...prevMockup,
-        dimension: {
-          ...prevMockup.dimension,
-          resized_height: ref.offsetHeight,
-          resized_width: ref.offsetWidth,
-        },
-        position: {
-          top: position.y,
-          left: position.x,
-        },
-      }));
-    },
-    [setMockup],
-  );
+  const padding_top = getPaddingTop(mockup);
+  const { width, height } = getDimensions(mockup);
 
   return (
     <div
@@ -160,25 +98,127 @@ const DraggableResizableImage = ({
       <Rnd
         bounds="parent"
         size={{
-          width: mockup.dimension.resized_width,
-          height: mockup.dimension.resized_height,
+          width:
+            mockup.dimension[
+              mockup.isFront ? "resized_width_front" : "resized_width_back"
+            ],
+          height:
+            mockup.dimension[
+              mockup.isFront ? "resized_height_front" : "resized_height_back"
+            ],
         }}
-        position={{ x: mockup.position.left, y: mockup.position.top }}
+        position={{
+          x: mockup.position[mockup.isFront ? "left_front" : "left_back"],
+          y: mockup.position[mockup.isFront ? "top_front" : "top_back"],
+        }}
         lockAspectRatio
         onDragStop={handleDragStop}
         maxWidth={width}
         maxHeight={400}
         onResize={handleResize}
       >
-        <img
-          src={mockup.resized_design}
-          alt=""
-          style={{
-            width: mockup.dimension.resized_width,
-            height: mockup.dimension.resized_height,
-          }}
-        />
+        {mockup.design_urls[mockup.isFront ? "front" : "back"] !== "" && (
+          <img
+            src={mockup.design_urls[mockup.isFront ? "front" : "back"]}
+            alt=""
+            style={{
+              width:
+                mockup.dimension[
+                  mockup.isFront ? "resized_width_front" : "resized_width_back"
+                ],
+              height:
+                mockup.dimension[
+                  mockup.isFront
+                    ? "resized_height_front"
+                    : "resized_height_back"
+                ],
+            }}
+          />
+        )}
       </Rnd>
     </div>
   );
+};
+
+/**
+ * Custom hook for handling mockup drag and resize events
+ * @param mockup Current mockup state
+ * @param setMockup Function to update the mockup state
+ */
+export const useMockupHandlers = (
+  mockup: GeneratorStateProps,
+  setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>,
+) => {
+  const handleDragStop = useCallback(
+    (e: any, d: DraggableData) => {
+      setMockup((prevMockup) => ({
+        ...prevMockup,
+        position: {
+          ...prevMockup.position,
+          [mockup.isFront ? "top_front" : "top_back"]: d.y,
+          [mockup.isFront ? "left_front" : "left_back"]: d.x,
+        },
+      }));
+    },
+    [mockup.isFront, setMockup],
+  );
+
+  const handleResize = useCallback(
+    (
+      e: MouseEvent | TouchEvent,
+      direction: any,
+      ref: HTMLElement,
+      delta: ResizableDelta,
+      position: Position,
+    ) => {
+      setMockup((prevMockup) => ({
+        ...prevMockup,
+        dimension: {
+          ...prevMockup.dimension,
+          [mockup.isFront ? "resized_height_front" : "resized_height_back"]:
+            ref.offsetHeight,
+          [mockup.isFront ? "resized_width_front" : "resized_width_back"]:
+            ref.offsetWidth,
+        },
+        position: {
+          ...prevMockup.position,
+          [mockup.isFront ? "top_front" : "top_back"]: position.y,
+          [mockup.isFront ? "left_front" : "left_back"]: position.x,
+        },
+      }));
+    },
+    [mockup.isFront, setMockup], // Include `mockup.isFront` in dependencies
+  );
+
+  return { handleDragStop, handleResize };
+};
+
+/**
+ * Utility function to get padding top based on mockup type and orientation
+ * @param mockup
+ */
+const getPaddingTop = (mockup: GeneratorStateProps): string => {
+  switch (mockup.type) {
+    case "hoodie_lane_7":
+      return mockup.isFront ? "-35px" : "-30px";
+    case "shirt_gilden":
+      return mockup.isFront ? "0px" : "-40px";
+    default:
+      return "";
+  }
+};
+
+/**
+ * Utility function to get dimensions based on mockup type
+ * @param mockup
+ */
+const getDimensions = (mockup: GeneratorStateProps) => {
+  switch (mockup.type) {
+    case "hoodie_lane_7":
+      return { width: "200px", height: "200px" };
+    case "shirt_gilden":
+      return { width: "225px", height: "400px" };
+    default:
+      return { width: "200px", height: "400px" };
+  }
 };

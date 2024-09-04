@@ -1,4 +1,7 @@
 export type MockupDocument = {
+  is_shirt: boolean;
+  front_is_main: boolean;
+  external?: "SHOPIFY" | null;
   id: string;
   domain: string;
   brand: MockupBrands;
@@ -29,17 +32,23 @@ export type MockupDocument = {
 };
 
 export type MockupDimensions = {
-  original_width: number;
-  original_height: number;
-  resized_height: number;
-  resized_width: number;
+  original_width_front: number;
+  original_height_front: number;
+  resized_height_front: number;
+  resized_width_front: number;
+  original_width_back: number;
+  original_height_back: number;
+  resized_height_back: number;
+  resized_width_back: number;
   blank_width: number;
   blank_height: number;
 };
 
 export type MockupPosition = {
-  top: number;
-  left: number;
+  top_front: number;
+  left_front: number;
+  top_back: number;
+  left_back: number;
 };
 
 export type MockupTypes = "shirt_gilden" | "hoodie_lane_7";
@@ -93,6 +102,7 @@ export type GeneratorStateProps = MockupDocument & {
   original_file: null | File;
   resized_design: string;
   progress: number;
+  isFront: boolean;
 };
 
 export type MockupRequestBody = {

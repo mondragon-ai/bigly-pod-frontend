@@ -6,8 +6,6 @@ import {
   Text,
   TextField,
 } from "@shopify/polaris";
-
-import styles from "./Mockups.module.css";
 import { useCallback } from "react";
 import {
   ArrowDownIcon,
@@ -15,155 +13,173 @@ import {
   ArrowUpIcon,
   ArrowLeftIcon,
 } from "@shopify/polaris-icons";
-import {
-  GeneratorStateProps,
-  MockupDocument,
-} from "~/routes/lib/types/mockups";
+import styles from "./Mockups.module.css";
+import { GeneratorStateProps } from "~/routes/lib/types/mockups";
+import { MOCKUP_DIMENSIONS } from "~/routes/lib/constants";
+
+export const calculateAspectRatio = (width: number, height: number) =>
+  width / (height || 1);
 
 export const GeneratorDimensions = ({
   mockup,
   setMockup,
-  isFront,
-  setFront,
 }: {
-  mockup: MockupDocument;
+  mockup: GeneratorStateProps;
   setMockup: React.Dispatch<React.SetStateAction<GeneratorStateProps>>;
-  isFront: boolean;
-  setFront: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const width =
-    mockup.type == "hoodie_lane_7"
-      ? 200
-      : mockup.type == "shirt_gilden"
-        ? 225
-        : 200;
+  const { width, height } =
+    MOCKUP_DIMENSIONS[mockup.type] || MOCKUP_DIMENSIONS.default;
 
-  const height =
-    mockup.type == "hoodie_lane_7"
-      ? 200
-      : mockup.type == "shirt_gilden"
-        ? 400
-        : 400;
+  const currentHeightKey = mockup.isFront
+    ? "resized_height_front"
+    : "resized_height_back";
+  const currentWidthKey = mockup.isFront
+    ? "resized_width_front"
+    : "resized_width_back";
+
+  const currentTopKey = mockup.isFront ? "top_front" : "top_back";
+  const currentLeftKey = mockup.isFront ? "left_front" : "left_back";
 
   const handleWidthChange = useCallback(
     (value: string) => {
       setMockup((prevMockup) => {
         const newWidth = Number(value);
-        const aspectRatio =
-          prevMockup.dimension.resized_height /
-          prevMockup.dimension.resized_width;
+
+        const aspectRatio = calculateAspectRatio(
+          prevMockup.dimension[currentWidthKey],
+          prevMockup.dimension[currentHeightKey],
+        );
         const neHeight = Math.round(newWidth * aspectRatio);
         return {
           ...prevMockup,
           dimension: {
             ...prevMockup.dimension,
-            resized_width:
+            [currentWidthKey]:
               newWidth <= width || neHeight <= height ? newWidth : newWidth,
-            resized_height:
+            [currentHeightKey]:
               neHeight <= height || newWidth <= width ? neHeight : height,
           },
         };
       });
     },
-    [setMockup],
+    [mockup, setMockup],
   );
 
   const handleHeightChange = useCallback(
     (value: string) => {
       setMockup((prevMockup) => {
         const newHeight = Number(value);
-        const aspectRatio =
-          prevMockup.dimension.resized_width /
-          prevMockup.dimension.resized_height;
+
+        const aspectRatio = calculateAspectRatio(
+          prevMockup.dimension[currentWidthKey],
+          prevMockup.dimension[currentHeightKey],
+        );
+
         const newWidth = Math.round(newHeight * aspectRatio);
         return {
           ...prevMockup,
           dimension: {
             ...prevMockup.dimension,
-            resized_height:
+            [currentHeightKey]:
               newHeight <= height || newHeight <= height ? newHeight : height,
-            resized_width:
+            [currentWidthKey]:
               newWidth <= width || newHeight <= height ? newWidth : width,
           },
         };
       });
     },
-    [setMockup],
+    [mockup, setMockup],
   );
 
   const handleTopChange = useCallback(
     (value: string) => {
       setMockup((prevMockup) => ({
         ...prevMockup,
-        position: { ...prevMockup.position, top: Number(value) },
+        position: {
+          ...prevMockup.position,
+          [currentTopKey]: Number(value),
+        },
       }));
     },
-    [setMockup],
+    [mockup, setMockup],
   );
 
   const handleLeftChange = useCallback(
     (value: string) => {
       setMockup((prevMockup) => ({
         ...prevMockup,
-        position: { ...prevMockup.position, left: Number(value) },
+        position: {
+          ...prevMockup.position,
+          [currentLeftKey]: Number(value),
+        },
       }));
     },
-    [setMockup],
+    [mockup, setMockup],
   );
 
   const alignLeft = useCallback(() => {
     setMockup((prevMockup) => ({
       ...prevMockup,
-      position: { ...prevMockup.position, left: 0 },
+      position: {
+        ...prevMockup.position,
+        [currentLeftKey]: 0,
+      },
     }));
-  }, [setMockup]);
+  }, [mockup, setMockup]);
 
   const alignTop = useCallback(() => {
     setMockup((prevMockup) => ({
       ...prevMockup,
-      position: { ...prevMockup.position, top: 0 },
+      position: {
+        ...prevMockup.position,
+        [currentTopKey]: 0,
+      },
     }));
-  }, [setMockup]);
+  }, [mockup, setMockup]);
 
   const alignBottom = useCallback(() => {
     setMockup((prevMockup) => ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        top: height - prevMockup.dimension.resized_height,
+        [currentTopKey]: height - prevMockup.dimension[currentHeightKey],
       },
     }));
-  }, [setMockup]);
+  }, [mockup, setMockup]);
 
   const alignRight = useCallback(() => {
     setMockup((prevMockup) => ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        left: width - prevMockup.dimension.resized_width,
+        [currentLeftKey]: width - prevMockup.dimension[currentWidthKey],
       },
     }));
-  }, [setMockup]);
+  }, [mockup, setMockup]);
 
   const alignMiddleHorizontal = useCallback(() => {
     setMockup((prevMockup) => ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        left: Math.round((width - prevMockup.dimension.resized_width) / 2),
+        [currentLeftKey]: Math.round(
+          (width - prevMockup.dimension[currentWidthKey]) / 2,
+        ),
       },
     }));
-  }, [setMockup]);
+  }, [mockup, setMockup]);
 
   const alignMiddleVertical = useCallback(() => {
     setMockup((prevMockup) => ({
       ...prevMockup,
       position: {
         ...prevMockup.position,
-        top: Math.round((height - prevMockup.dimension.resized_height) / 2),
+        [currentTopKey]: Math.round(
+          (height - prevMockup.dimension[currentHeightKey]) / 2,
+        ),
       },
     }));
-  }, [setMockup]);
+  }, [mockup, setMockup]);
 
   return (
     <Card>
@@ -175,12 +191,12 @@ export const GeneratorDimensions = ({
         <div className={styles.sizeWrapper}>
           <DimensionInput
             label="Width"
-            value={String(mockup.dimension.resized_width)}
+            value={String(mockup.dimension[currentWidthKey])}
             onChange={handleWidthChange}
           />
           <DimensionInput
             label="Height"
-            value={String(mockup.dimension.resized_height)}
+            value={String(mockup.dimension[currentHeightKey])}
             onChange={handleHeightChange}
           />
         </div>
@@ -188,12 +204,12 @@ export const GeneratorDimensions = ({
         <div className={styles.sizeWrapper}>
           <DimensionInput
             label="Top"
-            value={String(mockup.position.top)}
+            value={String(mockup.position[currentTopKey])}
             onChange={handleTopChange}
           />
           <DimensionInput
             label="Left"
-            value={String(mockup.position.left)}
+            value={String(mockup.position[currentLeftKey])}
             onChange={handleLeftChange}
           />
         </div>

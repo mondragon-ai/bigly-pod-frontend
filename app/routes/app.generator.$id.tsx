@@ -35,7 +35,6 @@ export default function GeneratorPage() {
   const shopify = useAppBridge();
   const location = useLocation();
   const navigate = useNavigate();
-  const [isFront, setFront] = useState(true);
   const slug = location.pathname.split("/").pop() as MockupTypes;
   const [error, setError] = useState<ErrorStateProps>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -45,6 +44,7 @@ export default function GeneratorPage() {
     type: slug.replaceAll("-", "_") as MockupTypes,
     original_file: null,
     progress: 0,
+    isFront: true,
   });
 
   const isLoading =
@@ -109,12 +109,7 @@ export default function GeneratorPage() {
         </Layout.Section>
         <Layout.Section>
           <BlockStack gap="500">
-            <GeneratorMockupImageCard
-              mockup={mockup}
-              setMockup={setMockup}
-              isFront={isFront}
-              setFront={setFront}
-            />
+            <GeneratorMockupImageCard mockup={mockup} setMockup={setMockup} />
             <MockupInfo mockup={mockup} />
           </BlockStack>
         </Layout.Section>
@@ -122,18 +117,8 @@ export default function GeneratorPage() {
         <Layout.Section variant="oneThird">
           <BlockStack gap="500">
             <GeneratorColors mockup={mockup} setMockup={setMockup} />
-            <GeneratorMockupImage
-              mockup={mockup}
-              setMockup={setMockup}
-              isFront={isFront}
-              setFront={setFront}
-            />
-            <GeneratorDimensions
-              mockup={mockup}
-              setMockup={setMockup}
-              isFront={isFront}
-              setFront={setFront}
-            />
+            <GeneratorMockupImage mockup={mockup} setMockup={setMockup} />
+            <GeneratorDimensions mockup={mockup} setMockup={setMockup} />
             <GeneratorMockupDetail mockup={mockup} setMockup={setMockup} />
           </BlockStack>
         </Layout.Section>

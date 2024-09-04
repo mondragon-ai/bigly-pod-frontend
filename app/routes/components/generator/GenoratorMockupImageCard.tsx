@@ -1,13 +1,10 @@
-import {
-  GeneratorStateProps,
-  MockupDocument,
-} from "~/routes/lib/types/mockups";
+import styles from "./Mockups.module.css";
 import { useCallback, useState } from "react";
 import { Button, Card } from "@shopify/polaris";
-import styles from "./Mockups.module.css";
-import { mockup_data } from "~/routes/lib/data/mockups";
-import { DraggableData, Position, ResizableDelta, Rnd } from "react-rnd";
 import { HOODIE_STRING } from "~/routes/lib/constants";
+import { mockup_data } from "~/routes/lib/data/mockups";
+import { GeneratorStateProps } from "~/routes/lib/types/mockups";
+import { DraggableData, Position, ResizableDelta, Rnd } from "react-rnd";
 
 export const GeneratorMockupImageCard = ({
   mockup,
@@ -66,6 +63,41 @@ export const GeneratorMockupImageCard = ({
           <Button onClick={() => toggleStrings(!strings)}>Toggle String</Button>
         )}
       </div>
+      {mockup.design_urls.sleeve !== "" &&
+        mockup.isFront &&
+        !mockup.type.includes("hoodie") && (
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 100,
+              top: "10px",
+              width: "97%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <img
+              src={mockup.design_urls.sleeve}
+              alt=""
+              style={{
+                width: 80,
+                height: 50,
+                maxWidth: 80,
+                maxHeight: 50,
+                objectFit: "contain",
+                transform:
+                  mockup.sleeve_side == "LEFT"
+                    ? "rotate(25deg)"
+                    : "rotate(-25deg)",
+                position: "absolute",
+                left: mockup.sleeve_side == "LEFT" ? 75 : 450,
+                top: mockup.sleeve_side == "LEFT" ? 150 : 150,
+                border: "1px solid red",
+              }}
+            />
+          </div>
+        )}
     </Card>
   );
 };

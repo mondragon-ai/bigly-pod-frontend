@@ -42,7 +42,9 @@ export default function GeneratorPage() {
     ...mockup_dummy,
     base_sku: generateRandomString(5, slug),
     type: slug.replaceAll("-", "_") as MockupTypes,
-    original_file: null,
+    original_file_front: null,
+    original_file_back: null,
+    original_file_sleeve: null,
     progress: 0,
     isFront: true,
   });
@@ -66,15 +68,35 @@ export default function GeneratorPage() {
     if (validateMockup(mockup, setError)) {
       setLoading(true);
       try {
-        const design_url = await uploadToServer(
-          mockup.original_file,
-          setMockup,
-          mockup,
-        );
-        const formData = new FormData();
-        const payload = convertToMockupRequestBody(mockup, design_url);
-        formData.append("mockup", JSON.stringify(payload));
-        fetcher.submit(formData, { method: "POST" });
+        let front = "";
+        if (mockup.original_file_front) {
+          front = await uploadToServer(
+            mockup.original_file_front,
+            setMockup,
+            mockup,
+          );
+        }
+        let back = "";
+        if (mockup.original_file_back) {
+          back = await uploadToServer(
+            mockup.original_file_back,
+            setMockup,
+            mockup,
+          );
+        }
+        let sleeve = "";
+        if (mockup.original_file_sleeve) {
+          sleeve = await uploadToServer(
+            mockup.original_file_sleeve,
+            setMockup,
+            mockup,
+          );
+        }
+        // const formData = new FormData();
+        const payload = convertToMockupRequestBody(mockup, front, back, sleeve);
+        console.log({ payload });
+        // formData.append("mockup", JSON.stringify(payload));
+        // fetcher.submit(formData, { method: "POST" });
       } catch (error) {
         console.error("Error uploading design:", error);
         setLoading(false);
@@ -171,6 +193,8 @@ const validateMockup = (
   mockup: GeneratorStateProps,
   setError: React.Dispatch<React.SetStateAction<ErrorStateProps>>,
 ) => {
+  const has_front = mockup.original_file_front;
+  const has_back = mockup.original_file_back;
   if (mockup.title.length < 4) {
     setError({
       title: "Mockup Title",
@@ -179,7 +203,7 @@ const validateMockup = (
     });
     return false;
   }
-  if (!mockup.design_urls.front) {
+  if (!has_front && !has_back) {
     setError({
       title: "Mockup Design",
       message: "Please upload a design image.",

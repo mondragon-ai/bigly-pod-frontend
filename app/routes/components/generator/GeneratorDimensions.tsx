@@ -14,8 +14,8 @@ import {
   ArrowLeftIcon,
 } from "@shopify/polaris-icons";
 import styles from "./Mockups.module.css";
-import { GeneratorStateProps } from "~/routes/lib/types/mockups";
 import { MOCKUP_DIMENSIONS } from "~/routes/lib/constants";
+import { GeneratorStateProps } from "~/routes/lib/types/mockups";
 
 export const calculateAspectRatio = (width: number, height: number) =>
   width / (height || 1);
@@ -185,7 +185,7 @@ export const GeneratorDimensions = ({
     <Card>
       <BlockStack gap="400">
         <Text as="h4" variant="headingMd">
-          Dimensions
+          {mockup.isFront ? "Front" : "Back"} Dimensions
         </Text>
 
         <div className={styles.sizeWrapper}>

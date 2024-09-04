@@ -29,6 +29,7 @@ export type MockupDocument = {
   position: MockupPosition;
   resized_design: string;
   original_file: File | null;
+  sleeve_side: "LEFT" | "RIGHT";
 };
 
 export type MockupDimensions = {
@@ -99,30 +100,30 @@ export type MockupResponseType = {
 };
 
 export type GeneratorStateProps = MockupDocument & {
-  original_file: null | File;
+  original_file_front: null | File;
+  original_file_back: null | File;
+  original_file_sleeve: null | File;
   resized_design: string;
   progress: number;
   isFront: boolean;
 };
 
 export type MockupRequestBody = {
-  design_url: string;
+  design_urls: {
+    front: string;
+    back: string;
+    sleeve: string;
+  };
   base_sku: string;
   title: string;
   colors: string[];
   sizes: string[];
   type: MockupTypes;
   cost: number;
-  dimension: {
-    original_width: number;
-    original_height: number;
-    resized_height: number;
-    resized_width: number;
-    blank_width: number;
-    blank_height: number;
-  };
-  position: {
-    top: number;
-    left: number;
-  };
+  dimension: MockupDimensions;
+  position: MockupPosition;
+  is_shirt: boolean;
+  front_is_main: boolean;
+  sides: ("FRONT" | "BACK")[];
+  sleeve_side: "LEFT" | "RIGHT";
 };

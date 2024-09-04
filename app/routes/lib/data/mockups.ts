@@ -20,7 +20,7 @@ export const mockup_data: MockupDataType = {
     delivery: "🇺🇸 Estimated Delivery 7 - 10 days",
     price: "$20.00 - $30.50",
     title: "Hoodies",
-    cost: 11,
+    cost: 20,
     front: {
       ["BLACK"]:
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_hoodie.png?v=1688134615",
@@ -66,7 +66,7 @@ export const mockup_data: MockupDataType = {
     delivery: "🇺🇸 Estimated Delivery 7 - 10 days",
     price: "$11.00 - $22.75",
     title: "Shirt",
-    cost: 20,
+    cost: 12,
     front: {
       ["BLACK"]:
         "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_front.png?v=1687985191",
@@ -186,4 +186,5 @@ export const mockup_dummy: MockupDocument = {
   brand: "LANE_7",
   is_shirt: false,
   front_is_main: false,
+  sleeve_side: "LEFT",
 };

@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://healthcare-gap-sufficiently-mc.trycloudflare.com"
+application_url = "https://export-gbp-spatial-bloom.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://healthcare-gap-sufficiently-mc.trycloudflare.com/auth/callback",
-  "https://healthcare-gap-sufficiently-mc.trycloudflare.com/auth/shopify/callback",
-  "https://healthcare-gap-sufficiently-mc.trycloudflare.com/api/auth/callback"
+  "https://export-gbp-spatial-bloom.trycloudflare.com/auth/callback",
+  "https://export-gbp-spatial-bloom.trycloudflare.com/auth/shopify/callback",
+  "https://export-gbp-spatial-bloom.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

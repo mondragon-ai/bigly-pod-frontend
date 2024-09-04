@@ -7,27 +7,52 @@ import { mockup_data } from "../data/mockups";
 
 export function convertToMockupRequestBody(
   mockupDocument: MockupDocument,
-  design_url: string,
+  front: string,
+  back: string,
+  sleeve: string,
 ): MockupRequestBody {
+  const has_front = front !== "";
+  const has_back = back !== "";
   return {
-    design_url: design_url,
+    design_urls: {
+      front: front,
+      back: back,
+      sleeve: sleeve,
+    },
+    cost: mockup_data[mockupDocument.type as MockupTypes].cost,
     base_sku: mockupDocument.base_sku,
     title: mockupDocument.title,
     colors: mockupDocument.colors,
     sizes: mockupDocument.sizes,
     type: mockupDocument.type as MockupTypes,
-    cost: mockup_data[mockupDocument.type as MockupTypes].cost,
     dimension: {
-      original_width: mockupDocument.dimension.original_width,
-      original_height: mockupDocument.dimension.original_height,
-      resized_height: mockupDocument.dimension.resized_height,
-      resized_width: mockupDocument.dimension.resized_width,
+      original_width_front: mockupDocument.dimension.original_width_front,
+      original_height_front: mockupDocument.dimension.original_height_front,
+      resized_height_front: mockupDocument.dimension.resized_height_front,
+      resized_width_front: mockupDocument.dimension.resized_width_front,
+      original_width_back: mockupDocument.dimension.original_width_back,
+      original_height_back: mockupDocument.dimension.original_height_back,
+      resized_height_back: mockupDocument.dimension.resized_height_back,
+      resized_width_back: mockupDocument.dimension.resized_width_back,
       blank_width: 1200,
       blank_height: 1200,
     },
     position: {
-      top: mockupDocument.position.top,
-      left: mockupDocument.position.left,
+      top_front: mockupDocument.position.top_front,
+      left_front: mockupDocument.position.left_front,
+      top_back: mockupDocument.position.top_back,
+      left_back: mockupDocument.position.left_back,
     },
+    is_shirt: mockupDocument.type.includes("shirt"),
+    front_is_main: (has_front && !has_back) || (has_front && has_back),
+    sides:
+      has_front && !has_back
+        ? ["FRONT"]
+        : has_front && has_back
+          ? ["FRONT", "BACK"]
+          : !has_front && has_back
+            ? ["BACK"]
+            : [],
+    sleeve_side: mockupDocument.sleeve_side,
   };
 }

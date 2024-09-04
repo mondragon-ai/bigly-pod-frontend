@@ -7,13 +7,17 @@ import {
   Text,
 } from "@shopify/polaris";
 import {
+  DeleteIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+} from "@shopify/polaris-icons";
+import {
   GeneratorStateProps,
   MockupDimensions,
   MockupDocument,
 } from "~/routes/lib/types/mockups";
 import styles from "./Mockups.module.css";
 import { useCallback, useState } from "react";
-import { DeleteIcon } from "@shopify/polaris-icons";
 
 export const GeneratorMockupImage = ({
   mockup,
@@ -100,6 +104,54 @@ export const GeneratorMockupImage = ({
             <UploadImage setMockup={setMockup} mockup={mockup} type={"BACK"} />
           )
         )}
+
+        {mockup.design_urls.sleeve &&
+        mockup.isFront &&
+        !mockup.type.includes("hoodie") ? (
+          <>
+            <InlineGrid gap="200" alignItems="start" columns="2">
+              <Text as="h4" variant="headingMd">
+                Sleeve Design
+              </Text>
+              <Button
+                icon={
+                  mockup.sleeve_side == "LEFT" ? ArrowLeftIcon : ArrowRightIcon
+                }
+                size="micro"
+                onClick={() =>
+                  setMockup({
+                    ...mockup,
+                    sleeve_side:
+                      mockup.sleeve_side == "LEFT" ? "RIGHT" : "LEFT",
+                  })
+                }
+              >
+                {mockup.sleeve_side == "LEFT" ? "Left Sleeve" : "Right Sleeve"}
+              </Button>
+            </InlineGrid>
+            <img
+              src={mockup.design_urls.sleeve}
+              alt="Mockup design"
+              className={styles.designImg}
+            />
+            <Button icon={DeleteIcon} onClick={() => handleDelete("SLEEVE")} />
+          </>
+        ) : (
+          toUpload &&
+          mockup.isFront &&
+          !mockup.type.includes("hoodie") && (
+            <>
+              <Text as="h4" variant="headingMd">
+                Sleeve Design
+              </Text>
+              <UploadImage
+                setMockup={setMockup}
+                mockup={mockup}
+                type={"SLEEVE"}
+              />
+            </>
+          )
+        )}
       </BlockStack>
     </Card>
   );
@@ -144,8 +196,8 @@ const UploadImage = ({
               img,
               dimensions,
             ),
-            resized_design: resizedDataUrl,
-            original_file: selectedFile,
+            [`resized_design_${type.toLowerCase()}`]: resizedDataUrl,
+            [`original_file_${type.toLowerCase()}`]: selectedFile,
           }));
         };
       }

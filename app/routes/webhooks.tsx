@@ -18,7 +18,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // The topics handled here should be declared in the shopify.app.toml.
   // More info: https://shopify.dev/docs/apps/build/cli-for-apps/app-configuration
   switch (webhook.topic) {
-    case "APP_UNINSTALLED":
     case "APP_UNINSTALLED": {
       if (webhook.session) {
         await db.session.deleteMany({ where: { shop: webhook.shop } });

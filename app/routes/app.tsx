@@ -6,16 +6,34 @@ import { AppProvider } from "@shopify/shopify-app-remix/react";
 import { NavMenu } from "@shopify/app-bridge-react";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 
-import { authenticate } from "../shopify.server";
+import { authenticate, USAGE_PLAN } from "../shopify.server";
+import { SERVER_BASE_URL } from "./lib/constants";
 
 export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await authenticate.admin(request);
+  const admin = await authenticate.admin(request);
+  const { session, billing } = admin;
+
+  const billingCheck = await billing.require({
+    plans: [USAGE_PLAN],
+    isTest: true,
+    onFailure: async () => billing.request({ plan: USAGE_PLAN }),
+  });
+
+  const subscription = billingCheck.appSubscriptions[0];
+
+  // if (!billingCheck.hasActivePayment || !subscription) {
+  // }
+
+  await fetch(
+    `${SERVER_BASE_URL}/store/${session.shop}/install/${session.accessToken}`,
+    {
+      method: "POST",
+    },
+  );
 
   return json({ apiKey: process.env.SHOPIFY_API_KEY || "" });
-
-  // TODO: Handling Billing
 };
 
 export default function App() {

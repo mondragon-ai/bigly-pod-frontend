@@ -13,7 +13,7 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "read_assigned_fulfillment_orders,read_locations,read_merchant_managed_fulfillment_orders,read_orders,read_products,read_third_party_fulfillment_orders,write_assigned_fulfillment_orders,write_fulfillments,write_inventory,write_merchant_managed_fulfillment_orders,write_orders,write_products,write_third_party_fulfillment_orders"
 
 [auth]
 redirect_urls = [
@@ -26,7 +26,19 @@ redirect_urls = [
 api_version = "2024-07"
 
   [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
+  uri = "https://us-central1-only-caps.cloudfunctions.net/gdpr/redact/customer"
+  compliance_topics = [ "customers/redact" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://us-central1-only-caps.cloudfunctions.net/gdpr/redact/store"
+  compliance_topics = [ "shop/redact" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://us-central1-only-caps.cloudfunctions.net/gdpr/request/customer"
+  compliance_topics = [ "customers/data_request" ]
+
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/update", "app/uninstalled", "fulfillment_orders/cancellation_request_submitted" ]
   uri = "/webhooks"
 
 [pos]

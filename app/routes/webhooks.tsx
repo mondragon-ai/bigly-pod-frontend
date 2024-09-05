@@ -1,11 +1,12 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
+import { SERVER_BASE_URL } from "./lib/constants";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const { topic, shop, session, admin } = await authenticate.webhook(request);
+  const webhook = await authenticate.webhook(request);
 
-  if (!admin && topic !== 'SHOP_REDACT') {
+  if (!webhook.admin && webhook.topic !== "SHOP_REDACT") {
     // The admin context isn't returned if the webhook fired after a shop was uninstalled.
     // The SHOP_REDACT webhook will be fired up to 48 hours after a shop uninstalls the app.
     // Because of this, no admin context is available.
@@ -14,13 +15,60 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   // The topics handled here should be declared in the shopify.app.toml.
   // More info: https://shopify.dev/docs/apps/build/cli-for-apps/app-configuration
-  switch (topic) {
+  switch (webhook.topic) {
     case "APP_UNINSTALLED":
-      if (session) {
-        await db.session.deleteMany({ where: { shop } });
+    case "APP_UNINSTALLED": {
+      if (webhook.session) {
+        await db.session.deleteMany({ where: { shop: webhook.shop } });
+      }
+      throw new Response("App Uninstlled", { status: 200 });
+    }
+    case "APP_SUBSCRIPTIONS_UPDATE": {
+      if (webhook.session) {
+        console.log(webhook.webhookId);
+        console.log(webhook.payload);
+        console.log(webhook.session);
+        const payload = webhook.payload as SubscriptionObject;
+        const { status, capped_amount } = payload.app_subscription;
+        const response = await fetch(
+          `${SERVER_BASE_URL}/store/${webhook.session.shop}/billing`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              payment_status: status,
+              capped_amount: capped_amount,
+            }),
+          },
+        );
+
+        console.log({ response });
       }
 
-      break;
+      throw new Response("Subscription Updated", { status: 200 });
+    }
+    case "FULFILLMENT_ORDERS_CANCELLATION_REQUEST_SUBMITTED": {
+      if (webhook.session) {
+        console.log(webhook.webhookId);
+        console.log(webhook.session);
+        const payload = webhook.payload as FulfillmentOrderDataProps;
+        console.log(payload);
+        const response = await fetch(
+          `${SERVER_BASE_URL}/fulfillment/${webhook.session.shop}/cancel`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ payload }),
+          },
+        );
+        console.log({ response });
+        throw new Response("Cancelled Fulfillment", { status: 200 });
+      }
+    }
     case "CUSTOMERS_DATA_REQUEST":
     case "CUSTOMERS_REDACT":
     case "SHOP_REDACT":

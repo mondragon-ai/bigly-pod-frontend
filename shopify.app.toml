@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "bigly-pod-frontend"
 handle = "bigly-pod-frontend"
-application_url = "https://export-gbp-spatial-bloom.trycloudflare.com"
+application_url = "https://remote-considers-sb-today.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://export-gbp-spatial-bloom.trycloudflare.com/auth/callback",
-  "https://export-gbp-spatial-bloom.trycloudflare.com/auth/shopify/callback",
-  "https://export-gbp-spatial-bloom.trycloudflare.com/api/auth/callback"
+  "https://remote-considers-sb-today.trycloudflare.com/auth/callback",
+  "https://remote-considers-sb-today.trycloudflare.com/auth/shopify/callback",
+  "https://remote-considers-sb-today.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -1,5 +1,5 @@
 import { authenticate } from "~/shopify.server";
-// import { SERVER_BASE_URL } from "../lib/constants";
+import { SERVER_BASE_URL } from "../lib/constants";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { AnalyticsProps } from "../lib/types/analytics";
 
@@ -16,23 +16,33 @@ export async function indexLoader({
   // TODO: Fetch timezone
 
   try {
-    // const response = await fetch(
-    //   `${SERVER_BASE_URL}/store/${admin.session.shop}/analytics?time_frame=thirty_days&timezone=America/New_York`,
-    // );
+    const response = await fetch(
+      `${SERVER_BASE_URL}/store/${admin.session.shop}/analytics?time_frame=thirty_days&timezone=America/New_York`,
+    );
+
+    if (response.status == 201) {
+      return {
+        shop: admin.session.shop,
+        analytics: [],
+      };
+    }
+
+    const data = (await response.json()) as {
+      text: string;
+      analytics: AnalyticsProps[];
+    };
+
+    if (!data.analytics) {
+      return {
+        shop: admin.session.shop,
+        analytics: [] as AnalyticsProps[],
+      };
+    }
 
     return {
       shop: admin.session.shop,
-      analytics: [],
+      analytics: data.analytics,
     };
-
-    // const data = (await response.json()) as {
-    //   text: string;
-    //   analytics: AnalyticsProps[];
-    // };
-    // return {
-    //   shop: admin.session.shop,
-    //   analytics: data.analytics,
-    // };
   } catch (error) {
     console.error("Error fetching analytics data:", error);
     throw new Response("Failed to load data", { status: 500 });

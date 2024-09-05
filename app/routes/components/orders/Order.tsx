@@ -20,19 +20,44 @@ import { PRODUCT_PLACEHODLER } from "~/routes/lib/constants";
 import { formatToMoney } from "~/routes/lib/formatters/numbers";
 import { OrderFulfilledIcon, ShippingLabelIcon } from "@shopify/polaris-icons";
 
+const renderBadge = (status: string, delivery: string) => {
+  const statusBadge =
+    status === "ACTIVE" ? (
+      <Badge tone="success" progress="complete">
+        Complete
+      </Badge>
+    ) : (
+      <Badge tone="magic" progress="partiallyComplete">
+        Processing
+      </Badge>
+    );
+
+  const deliveryBadge =
+    delivery !== "" ? (
+      <Badge tone="success" progress="complete">
+        Delivered
+      </Badge>
+    ) : (
+      <Badge tone="critical" progress="incomplete">
+        No Tracking
+      </Badge>
+    );
+
+  return { statusBadge, deliveryBadge };
+};
+
 export const Order = ({ order }: { order: OrderDocument }) => {
+  const { statusBadge, deliveryBadge } = renderBadge(
+    order.fulfillment_status,
+    order.tracking_number,
+  );
+
   return (
     <Card padding="400">
       <BlockStack gap="300">
         <div className={styles.orderBadges}>
-          <div style={{ marginRight: "0.5rem" }}>
-            <Badge tone={"success"} icon={OrderFulfilledIcon}>
-              Fulilled
-            </Badge>
-          </div>
-          <Badge tone={"success"} icon={ShippingLabelIcon}>
-            Delivered
-          </Badge>
+          <div style={{ marginRight: "0.5rem" }}>{statusBadge}</div>
+          {deliveryBadge}
         </div>
         <Text as="h4" variant="headingMd">
           Order
@@ -73,10 +98,8 @@ const renderLineItem = (
 ) => {
   const line_item =
     item.filter((li) => {
-      console.log(li);
       return li.variant_id === pod_li.merchant_variants_id;
     })[0] || item[0];
-  console.log(line_item);
   const { sku, title, variant_title, quantity, price } = line_item;
   const { variant_id, image, cost } = pod_li;
 

@@ -91,26 +91,25 @@ export async function ordersLoader({ request }: LoaderFunctionArgs) {
   const admin = await authenticate.admin(request);
 
   try {
-    // const response = await fetch(
-    //   `${SERVER_BASE_URL}/store/${admin.session.shop}/orders`,
-    // );
+    const response = await fetch(
+      `${SERVER_BASE_URL}/store/${admin.session.shop}/orders`,
+    );
 
-    // console.log({ response });
-    // if (!response.ok) {
-    //   return json({
-    //     shop: admin.session.shop,
-    //     orders: [],
-    //   });
-    // }
+    if (!response.ok) {
+      return json({
+        shop: admin.session.shop,
+        orders: [],
+      });
+    }
 
-    // const data = (await response.json()) as {
-    //   text: string;
-    //   orders: OrderDocument[];
-    // };
+    const data = (await response.json()) as {
+      text: string;
+      orders: OrderDocument[];
+    };
 
     return json({
       shop: admin.session.shop,
-      orders: [] as OrderDocument[],
+      orders: data.orders,
     });
   } catch (error) {
     console.error("Error loading orders:", error);
@@ -197,23 +196,28 @@ export async function orderLoader({ request, params }: LoaderFunctionArgs) {
   const admin = await authenticate.admin(request);
 
   try {
-    // const response = await fetch(
-    //   `${SERVER_BASE_URL}/store/${admin.session.shop}/orders?id=${params.id}`,
-    // );
+    const response = await fetch(
+      `${SERVER_BASE_URL}/store/${admin.session.shop}/orders?id=${params.id}`,
+    );
 
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch order data");
-    // }
+    if (!response.ok) {
+      return json({
+        shop: admin.session.shop,
+        params,
+        order: null,
+        id: params.id,
+      });
+    }
 
-    // const data = (await response.json()) as {
-    //   text: string;
-    //   orders: OrderDocument[];
-    // };
+    const data = (await response.json()) as {
+      text: string;
+      orders: OrderDocument[];
+    };
 
     return json({
       shop: admin.session.shop,
       params,
-      order: null,
+      order: data.orders[0] || null,
       id: params.id,
     });
   } catch (error) {

@@ -32,29 +32,25 @@ export async function analyticsLoader({ request }: LoaderFunctionArgs) {
 
     const responseJson = await shopResponse.json();
 
-    // const response = await fetch(
-    //   `${SERVER_BASE_URL}/store/${session.shop}/analytics?time_frame=${timeFrame}&timezone=America/New_York`,
-    // );
+    const response = await fetch(
+      `${SERVER_BASE_URL}/store/${session.shop}/analytics?time_frame=${timeFrame}&timezone=America/New_York`,
+    );
 
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch analytics data");
-    // }
+    if (response.status == 201) {
+      return defer({
+        shop: session.shop,
+        analytics: [],
+      });
+    }
 
-    // if (response.status == 201) {
-    //   return defer({
-    //     shop: session.shop,
-    //     analytics: [],
-    //   });
-    // }
-
-    // const data = (await response.json()) as {
-    //   text: string;
-    //   analytics: AnalyticsProps[];
-    // };
+    const data = (await response.json()) as {
+      text: string;
+      analytics: AnalyticsProps[];
+    };
 
     return defer({
       shop: session.shop,
-      analytics: [],
+      analytics: data.analytics,
     });
   } catch (error) {
     console.error("Error loading analytics data:", error);

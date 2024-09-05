@@ -156,7 +156,10 @@ export async function mockupLoader({ request, params }: LoaderFunctionArgs) {
     if (!mockupResponse.ok) {
       return json({
         shop: session.shop,
-        mockups: [],
+        mockups: {
+          text: "",
+          mockups: [] as MockupDocument[],
+        },
         id,
         customer: {
           email: String(shopData.data?.shop.contactEmail || ""),

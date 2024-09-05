@@ -1,4 +1,6 @@
-export const SERVER_BASE_URL = "";
+export const SERVER_BASE_URL = true
+  ? "http://127.0.0.1:5001/pod-bigly/us-central1"
+  : "https://us-central1-only-caps.cloudfunctions.net";
 
 export const PRODUCT_PLACEHODLER =
   "https://cdn.shopify.com/s/files/1/0731/7048/5544/files/black_hoodie.png?v=1688134615";

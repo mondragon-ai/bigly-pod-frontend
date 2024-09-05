@@ -2,6 +2,8 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
 import { SERVER_BASE_URL } from "./lib/constants";
+import { FulfillmentOrderDataProps } from "./lib/types/shopify";
+import { SubscriptionObject } from "./lib/types/app";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const webhook = await authenticate.webhook(request);

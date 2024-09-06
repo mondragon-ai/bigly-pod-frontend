@@ -29,6 +29,17 @@
   object-fit: cover;
 }
 
+.mockupContainer {
+  height: 600px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
 .color {
   position: relative;
   display: flex;

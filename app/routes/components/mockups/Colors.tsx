@@ -64,7 +64,11 @@ export const Colors = ({ mockup, setImage, image }: ColorsProps) => {
                   onClick={() => setImage(color)}
                 >
                   <img
-                    style={{ height: "25px", width: "25px" }}
+                    style={{
+                      height: "25px",
+                      width: "25px",
+                      objectFit: "contain",
+                    }}
                     src={mockup_data[mockup.type].front[color]}
                     alt={color}
                   />

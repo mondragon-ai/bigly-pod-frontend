@@ -2,6 +2,7 @@ import styles from "./Mockups.module.css";
 import { MockupDocument } from "~/routes/lib/types/mockups";
 import { formatDateLong } from "~/routes/lib/formatters/numbers";
 import { Badge, BlockStack, Card, Link, Text } from "@shopify/polaris";
+import { capitalizeEachWord } from "~/routes/lib/formatters/text";
 
 const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
@@ -18,7 +19,7 @@ export const MockupDetail = ({ mockup }: { mockup: MockupDocument }) => {
         <div>
           <BlockStack gap="050">
             <Text as="p" variant="bodyMd" tone="disabled">
-              <Badge tone="magic">{`${capitalizeFirstLetter(mockup.type)} Hat`}</Badge>
+              <Badge tone="magic">{`${capitalizeEachWord(mockup.type)}`}</Badge>
             </Text>
             <Text as="p" variant="bodyMd" tone="disabled">
               {mockup.title}

@@ -149,7 +149,7 @@ export const mockup_dummy: MockupDocument = {
   base_sku: "",
   title: "",
   colors: [],
-  sizes: ["OSFA"],
+  sizes: ["SMALL", "MEDIUM", "LARGE", "XL"],
   blank_image: "",
   type: "shirt_gilden",
   cost: 35.0,

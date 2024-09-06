@@ -25,6 +25,7 @@ import {
   GeneratorMockupImageCard,
 } from "./components/generator";
 import { MockupInfo } from "./components/mockups";
+import { GeneratorSizes } from "./components/generator/GeneratorSizes";
 
 export const loader = generatorLoader;
 export const action = generatorAction;
@@ -92,11 +93,11 @@ export default function GeneratorPage() {
             mockup,
           );
         }
-        // const formData = new FormData();
+        const formData = new FormData();
         const payload = convertToMockupRequestBody(mockup, front, back, sleeve);
         console.log({ payload });
-        // formData.append("mockup", JSON.stringify(payload));
-        // fetcher.submit(formData, { method: "POST" });
+        formData.append("mockup", JSON.stringify(payload));
+        fetcher.submit(formData, { method: "POST" });
       } catch (error) {
         console.error("Error uploading design:", error);
         setLoading(false);
@@ -139,6 +140,7 @@ export default function GeneratorPage() {
         <Layout.Section variant="oneThird">
           <BlockStack gap="500">
             <GeneratorColors mockup={mockup} setMockup={setMockup} />
+            <GeneratorSizes mockup={mockup} setMockup={setMockup} />
             <GeneratorMockupImage mockup={mockup} setMockup={setMockup} />
             <GeneratorDimensions mockup={mockup} setMockup={setMockup} />
             <GeneratorMockupDetail mockup={mockup} setMockup={setMockup} />

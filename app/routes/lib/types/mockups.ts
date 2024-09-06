@@ -1,13 +1,21 @@
 export type MockupDocument = {
+  is_shirt: boolean;
+  front_is_main: boolean;
+  external?: "SHOPIFY" | null;
   id: string;
   domain: string;
+  brand: MockupBrands;
   access_token: string;
   shop_name: string;
-  design_url: string;
+  design_urls: {
+    front: string;
+    back: string;
+    sleeve: string;
+  };
   base_sku: string;
   title: string;
   colors: string[];
-  sizes: string[];
+  sizes: MockupSizeTypes[];
   blank_image: string;
   type: MockupTypes;
   cost: number;
@@ -18,118 +26,76 @@ export type MockupDocument = {
   status: "ACTIVE" | "DEACTIVE";
   product_id: string;
   dimension: MockupDimensions;
-  position: {
-    top: number;
-    left: number;
-  };
+  position: MockupPosition;
   resized_design: string;
   original_file: File | null;
+  sleeve_side: "LEFT" | "RIGHT";
 };
 
+export type MockupSizeTypes =
+  | "SMALL"
+  | "MEDIUM"
+  | "LARGE"
+  | "XL"
+  | "2XL"
+  | "3XL"
+  | "4XL"
+  | "5XL";
+
 export type MockupDimensions = {
-  original_width: number;
-  original_height: number;
-  resized_height: number;
-  resized_width: number;
+  original_width_front: number;
+  original_height_front: number;
+  resized_height_front: number;
+  resized_width_front: number;
+  original_width_back: number;
+  original_height_back: number;
+  resized_height_back: number;
+  resized_width_back: number;
   blank_width: number;
   blank_height: number;
 };
 
 export type MockupPosition = {
-  top: number;
-  left: number;
+  top_front: number;
+  left_front: number;
+  top_back: number;
+  left_back: number;
 };
 
-export type MockupRequestBody = {
-  design_url: string;
-  base_sku: string;
-  title: string;
-  colors: string[];
-  sizes: string[];
-  type: MockupTypes;
-  cost: number;
-  dimension: {
-    original_width: number;
-    original_height: number;
-    resized_height: number;
-    resized_width: number;
-    blank_width: number;
-    blank_height: number;
-  };
-  position: {
-    top: number;
-    left: number;
-  };
-};
+export type MockupTypes = "shirt_gilden" | "hoodie_lane_7";
+export type MockupBrands = "GILDEN" | "LANE_7";
 
-export type GeneratorStateProps = MockupDocument & {
-  original_file: null | File;
-  resized_design: string;
-  progress: number;
-};
+// !  Mockup Data Types
+// ! ========================================
 
-export type MockupTypes =
-  | "dad"
-  | "trucker"
-  | "retro_trucker"
-  | "snapback"
-  | "mid_profile"
-  | "high_profile"
-  | "low_profile"
-  | "foam_trucker"
-  | "flat_bill"
-  | "structured"
-  | "relaxed";
-
-export type HatDetail = {
+export type MockupDataProps = {
   name: string;
   type: MockupTypes;
+  brand: MockupBrands;
   colors: string[];
+  sizes: string[];
   details: string[];
   features: string;
   material: string;
   image: string;
-  sample: string;
   delivery: string;
   price: string;
   title: string;
   cost: number;
-  quarter_turns: {
+  front: {
+    [key: string]: string;
+  };
+  back: {
     [key: string]: string;
   };
 };
 
-export type HatDataType = {
-  [key in MockupTypes]: HatDetail;
+export type MockupDataType = {
+  [key in MockupTypes]: MockupDataProps;
 };
 
-export type DesignDocument = {
-  id: string;
-  domain: string;
-  access_token: string;
-  merchant_uuid: string;
-  status: "ACTIVE" | "DEACTIVE";
-  is_shirt: boolean;
-  base_sku: string;
-  title: string;
-  product_id: string | number;
-  mockup_urls: { url: string; alt: string }[];
-  has_inverted: boolean;
-  design_urls: "";
-  sizes?: (
-    | "Small"
-    | "Medium"
-    | "Large"
-    | "XL"
-    | "2XL"
-    | "3XL"
-    | "4XL"
-    | "5XL"
-  )[];
-  url?: string;
-  updated_at: any;
-  created_at: any;
-};
+// !  Mockup Generator Types
+// ! ========================================
 
 export type MockupResponseType = {
   error: boolean;
@@ -141,4 +107,33 @@ export type MockupResponseType = {
     }[];
   };
   text: string;
+};
+
+export type GeneratorStateProps = MockupDocument & {
+  original_file_front: null | File;
+  original_file_back: null | File;
+  original_file_sleeve: null | File;
+  resized_design: string;
+  progress: number;
+  isFront: boolean;
+};
+
+export type MockupRequestBody = {
+  design_urls: {
+    front: string;
+    back: string;
+    sleeve: string;
+  };
+  base_sku: string;
+  title: string;
+  colors: string[];
+  sizes: string[];
+  type: MockupTypes;
+  cost: number;
+  dimension: MockupDimensions;
+  position: MockupPosition;
+  is_shirt: boolean;
+  front_is_main: boolean;
+  sides: ("FRONT" | "BACK")[];
+  sleeve_side: "LEFT" | "RIGHT";
 };

@@ -1,9 +1,9 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
-name = "bigly-pod-frontend"
-handle = "bigly-pod-frontend"
-application_url = "https://equivalent-manufactured-tracker-translation.trycloudflare.com"
+name = "Bigly POD - DEV"
+handle = "bigly-pod-dev"
+application_url = "https://bottles-teach-votes-petersburg.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_assigned_fulfillment_orders,read_locations,read_merchant_managed_
 
 [auth]
 redirect_urls = [
-  "https://equivalent-manufactured-tracker-translation.trycloudflare.com/auth/callback",
-  "https://equivalent-manufactured-tracker-translation.trycloudflare.com/auth/shopify/callback",
-  "https://equivalent-manufactured-tracker-translation.trycloudflare.com/api/auth/callback"
+  "https://bottles-teach-votes-petersburg.trycloudflare.com/auth/callback",
+  "https://bottles-teach-votes-petersburg.trycloudflare.com/auth/shopify/callback",
+  "https://bottles-teach-votes-petersburg.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

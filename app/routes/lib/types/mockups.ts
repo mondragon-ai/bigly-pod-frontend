@@ -16,21 +16,20 @@ export type MockupDocument = {
   title: string;
   colors: string[];
   sizes: MockupSizeTypes[];
-  blank_image: string;
   type: MockupTypes;
   cost: number;
   state: number;
   created_at: any;
   updated_at: any;
-  mockup_urls: { url: string; alt: string }[];
+  mockup_urls: { front: MockupUrls[]; back: MockupUrls[] };
   status: "ACTIVE" | "DEACTIVE";
   product_id: string;
   dimension: MockupDimensions;
   position: MockupPosition;
-  resized_design: string;
-  original_file: File | null;
   sleeve_side: "LEFT" | "RIGHT";
 };
+
+export type MockupUrls = { url: string; alt: string };
 
 export type MockupSizeTypes =
   | "SMALL"
@@ -51,6 +50,10 @@ export type MockupDimensions = {
   original_height_back: number;
   resized_height_back: number;
   resized_width_back: number;
+  original_width_sleeve: number;
+  original_height_sleeve: number;
+  resized_height_sleeve: number;
+  resized_width_sleeve: number;
   blank_width: number;
   blank_height: number;
 };

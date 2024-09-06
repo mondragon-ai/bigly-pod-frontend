@@ -3,7 +3,7 @@
 client_id = "e8075203c520dda8fcbe6fddf7931b5a"
 name = "Bigly POD - DEV"
 handle = "bigly-pod-dev"
-application_url = "https://bottles-teach-votes-petersburg.trycloudflare.com"
+application_url = "https://webshots-usd-paul-tied.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_assigned_fulfillment_orders,read_locations,read_merchant_managed_
 
 [auth]
 redirect_urls = [
-  "https://bottles-teach-votes-petersburg.trycloudflare.com/auth/callback",
-  "https://bottles-teach-votes-petersburg.trycloudflare.com/auth/shopify/callback",
-  "https://bottles-teach-votes-petersburg.trycloudflare.com/api/auth/callback"
+  "https://webshots-usd-paul-tied.trycloudflare.com/auth/callback",
+  "https://webshots-usd-paul-tied.trycloudflare.com/auth/shopify/callback",
+  "https://webshots-usd-paul-tied.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

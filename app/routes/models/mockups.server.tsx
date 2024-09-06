@@ -29,22 +29,22 @@ export async function mockupsLoader({ request }: LoaderFunctionArgs): Promise<
   const admin = await authenticate.admin(request);
 
   try {
-    // const response = await fetch(
-    //   `${SERVER_BASE_URL}/store/${admin.session.shop}/mockups`,
-    // );
+    const response = await fetch(
+      `${SERVER_BASE_URL}/store/${admin.session.shop}/mockups`,
+    );
 
-    // if (!response.ok) {
-    //   return json({
-    //     shop: admin.session.shop,
-    //     mockups: [],
-    //   });
-    // }
+    if (!response.ok) {
+      return json({
+        shop: admin.session.shop,
+        mockups: [],
+      });
+    }
 
-    // const data = (await response.json()) as { mockups: MockupDocument[] };
+    const data = (await response.json()) as { mockups: MockupDocument[] };
 
     return json({
       shop: admin.session.shop,
-      mockups: [] as MockupDocument[],
+      mockups: data.mockups as MockupDocument[],
     });
   } catch (error) {
     console.error("Error loading mockups:", error);

@@ -47,6 +47,10 @@ export const GeneratorMockupImage = ({
         resized_width_back: 0,
         blank_width: 0,
         blank_height: 0,
+        original_width_sleeve: 0,
+        original_height_sleeve: 0,
+        resized_height_sleeve: 0,
+        resized_width_sleeve: 0,
       },
       resized_design: "",
       position: {
@@ -170,12 +174,17 @@ const UploadImage = ({
     (_dropFiles: File[], acceptedFiles: File[], _rejectedFiles: File[]) => {
       const selectedFile = acceptedFiles[0];
 
+      console.log({ type });
+
       if (selectedFile) {
         const img = new Image();
         const objectUrl = window.URL.createObjectURL(selectedFile);
         img.src = objectUrl;
         img.onload = () => {
-          const dimensions = calculateDimensions(img);
+          const dimensions = calculateDimensions(img, type);
+
+          console.log({ dimensions });
+          console.log({ objectUrl });
           const canvas = document.createElement("canvas");
           canvas.width = dimensions.width;
           canvas.height = dimensions.height;
@@ -221,9 +230,12 @@ const UploadImage = ({
   );
 };
 
-const calculateDimensions = (img: HTMLImageElement) => {
-  const MAX_WIDTH = 300;
-  const MAX_HEIGHT = 120;
+const calculateDimensions = (
+  img: HTMLImageElement,
+  type: "FRONT" | "BACK" | "SLEEVE",
+) => {
+  const MAX_WIDTH = type === "SLEEVE" ? 80 : 300;
+  const MAX_HEIGHT = type === "SLEEVE" ? 50 : 120;
   let { width, height } = img;
 
   if (width > height) {
@@ -252,6 +264,8 @@ const updateDimensions = (
   dimensions: { width: number; height: number },
 ) => {
   const dimensionKeyPrefix = type.toLowerCase();
+  console.log({ type_two: dimensionKeyPrefix });
+  console.log({ img, dimensions });
   return {
     ...prevDimensions,
     [`original_width_${dimensionKeyPrefix}`]: img.width,

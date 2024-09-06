@@ -43,6 +43,14 @@ export const MockupList = ({ mockups, handleDelete }: MockupListProps) => {
 
   const renderRow = (mockup: MockupDocument, index: number) => {
     const { id, title, state, type, product_id, mockup_urls } = mockup;
+    const front =
+      mockup_urls.front && mockup_urls.front.length !== 0
+        ? mockup_urls.front
+        : [];
+    const back =
+      mockup_urls.back && mockup_urls.back.length !== 0 ? mockup_urls.back : [];
+
+    const urls = front.length !== 0 ? front : back;
     return (
       <IndexTable.Row
         id={id}
@@ -52,10 +60,7 @@ export const MockupList = ({ mockups, handleDelete }: MockupListProps) => {
         onClick={() => navigate(`/app/mockup/${id}`)}
       >
         <IndexTable.Cell>
-          <Thumbnail
-            source={mockup_urls && mockup_urls[0] && mockup_urls[0].url}
-            alt={mockup_urls && mockup_urls[0] && mockup_urls[0].alt}
-          />
+          <Thumbnail source={urls[0].url} alt={urls[0].alt} />
         </IndexTable.Cell>
         <IndexTable.Cell>
           <Text variant="bodyMd" as="span">

@@ -3,7 +3,7 @@
 client_id = "14e68cb64a6de2412bbbbc0c95920a58"
 name = "Bigly POD"
 handle = "bigly-pod"
-application_url = "https://bigly-pod-prod-77189af19854.herokuapp.com"
+application_url = "https://bigly-pod-prod-77189af19854.herokuapp.com/"
 embedded = true
 
 [build]

@@ -51,7 +51,7 @@ export function GeneratorSizes({
       } else {
         nextSelectedTags.add(selected);
       }
-      setMockup({ ...mockup, sizes: [...nextSelectedTags] });
+      setMockup((prev) => ({ ...prev, sizes: [...nextSelectedTags] }));
       setValue("");
       setSuggestion("");
     },

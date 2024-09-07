@@ -52,7 +52,6 @@ export const GeneratorMockupImage = ({
         resized_height_sleeve: 0,
         resized_width_sleeve: 0,
       },
-      resized_design: "",
       position: {
         top_front: 0,
         left_front: 0,
@@ -205,7 +204,6 @@ const UploadImage = ({
               img,
               dimensions,
             ),
-            [`resized_design_${type.toLowerCase()}`]: resizedDataUrl,
             [`original_file_${type.toLowerCase()}`]: selectedFile,
           }));
         };

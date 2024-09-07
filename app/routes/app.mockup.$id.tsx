@@ -1,4 +1,12 @@
-import { Badge, Banner, BlockStack, Layout, Page } from "@shopify/polaris";
+import {
+  Badge,
+  Banner,
+  BlockStack,
+  Layout,
+  Page,
+  ProgressBar,
+  Text,
+} from "@shopify/polaris";
 import { mockupAction, mockupLoader } from "./models/mockups.server";
 import { DeleteIcon, ProductAddIcon } from "@shopify/polaris-icons";
 import { Suspense, useCallback, useEffect, useState } from "react";
@@ -50,27 +58,33 @@ export default function MockupPage() {
   const [complete, setComplete] = useState<boolean>(false);
   const [error, setError] = useState<ErrorStateProps>(null);
   const [image, setImage] = useState<string>("");
+  const [progress, setProgress] = useState(0);
 
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";
 
   const handleDelete = useCallback(async () => {
+    setLoading(true);
     await deleteMockupCallback(data as any, fetcher, setLoading, setError);
-  }, [data, fetcher, navigate, setLoading, setError]);
+    setLoading(false);
+  }, [data, fetcher, navigate, setLoading, setError, loading]);
 
   const handleCreateProduct = useCallback(async () => {
+    setLoading(true);
     await createProductMockupCallback(
       data as any,
       fetcher,
       setLoading,
       setError,
     );
-  }, [data, fetcher, navigate, setLoading, setError]);
+    setLoading(false);
+  }, [data, fetcher, navigate, setLoading, setError, loading]);
 
   const { address, customer } = data;
   const handleWholesale = useCallback(
     async (quantity: number, form: FormProps) => {
+      setLoading(true);
       const mockup = data.mockups.mockups[0];
       const payload = {
         form,
@@ -78,8 +92,9 @@ export default function MockupPage() {
         product_id: `${mockup ? mockup.product_id : ""}`,
       };
       purchaseWholesaleCallback(payload, fetcher, setLoading, setError);
+      setLoading(false);
     },
-    [data, fetcher, navigate, setLoading, setError],
+    [data, fetcher, navigate, setLoading, setError, loading],
   );
 
   const response = fetcher.data;
@@ -95,7 +110,19 @@ export default function MockupPage() {
         navigate,
       );
     }
-  }, [shopify, response, data]);
+    if (loading) {
+      const interval = setInterval(() => {
+        setProgress((prevProgress) => {
+          const nextProgress = prevProgress + 5;
+          return nextProgress > 97 ? 97 : nextProgress;
+        });
+      }, 1200);
+
+      return () => clearInterval(interval);
+    }
+    // Reset progress when not loading
+    setProgress(0);
+  }, [shopify, response, data, loading]);
 
   return (
     <Suspense fallback={<LoadingSkeleton />}>
@@ -151,6 +178,27 @@ export default function MockupPage() {
                       onDismiss={() => setError(null)}
                     >
                       <p>{error.message}</p>
+                    </Banner>
+                  )}
+                  {loading && (
+                    <Banner
+                      title={
+                        "Generating Shopify Products - Please don't navigate away"
+                      }
+                      tone={"info"}
+                    >
+                      <BlockStack gap={"150"}>
+                        <ProgressBar progress={progress} />
+                        <Text as="h3" variant="bodyMd" tone="magic-subdued">
+                          {progress <= 20
+                            ? "Creating Variants 🛒"
+                            : progress > 20 && progress <= 60
+                              ? "Linking Images 📸"
+                              : progress > 60 && progress <= 95
+                                ? "Storing & Creating Shopify Products 💾"
+                                : "Almost There 🥳"}
+                        </Text>
+                      </BlockStack>
                     </Banner>
                   )}
                 </Layout.Section>

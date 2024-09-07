@@ -27,7 +27,6 @@ export type MockupDocument = {
   product_id: string;
   dimension: MockupDimensions;
   position: MockupPosition;
-  resized_design: string;
   original_file: File | null;
   sleeve_side: "LEFT" | "RIGHT";
 };
@@ -103,7 +102,6 @@ export type GeneratorStateProps = MockupDocument & {
   original_file_front: null | File;
   original_file_back: null | File;
   original_file_sleeve: null | File;
-  resized_design: string;
   progress: number;
   isFront: boolean;
 };

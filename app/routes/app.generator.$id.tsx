@@ -13,7 +13,14 @@ import { ProductAddIcon } from "@shopify/polaris-icons";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { useCallback, useEffect, useState } from "react";
 import { generateRandomString } from "./lib/util/mockups";
-import { Banner, BlockStack, Layout, Page } from "@shopify/polaris";
+import {
+  Banner,
+  BlockStack,
+  Layout,
+  Page,
+  ProgressBar,
+  Text,
+} from "@shopify/polaris";
 import { convertToMockupRequestBody } from "./lib/payloads/mockups";
 import { GeneratorStateProps, MockupTypes } from "./lib/types/mockups";
 import { generatorAction, generatorLoader } from "./models/generator.server";
@@ -38,10 +45,11 @@ export default function GeneratorPage() {
   const navigate = useNavigate();
   const slug = location.pathname.split("/").pop() as MockupTypes;
   const [error, setError] = useState<ErrorStateProps>(null);
+  const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [mockup, setMockup] = useState<GeneratorStateProps>({
     ...mockup_dummy,
-    base_sku: generateRandomString(5, slug),
+    base_sku: generateRandomString(5, slug as MockupTypes),
     type: slug.replaceAll("-", "_") as MockupTypes,
     original_file_front: null,
     original_file_back: null,
@@ -49,6 +57,8 @@ export default function GeneratorPage() {
     progress: 0,
     isFront: true,
   });
+
+  console.log(mockup.base_sku);
 
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
@@ -63,7 +73,20 @@ export default function GeneratorPage() {
     if (repsonse) {
       handleResponse(repsonse, shopify, setError, setLoading, navigate);
     }
-  }, [shop, repsonse]);
+
+    if (loading) {
+      const interval = setInterval(() => {
+        setProgress((prevProgress) => {
+          const nextProgress = prevProgress + 5;
+          return nextProgress > 97 ? 97 : nextProgress;
+        });
+      }, 1200);
+
+      return () => clearInterval(interval);
+    }
+    // Reset progress when not loading
+    setProgress(0);
+  }, [shop, repsonse, loading]);
 
   const handleSubmit = useCallback(async () => {
     if (validateMockup(mockup, setError)) {
@@ -95,7 +118,6 @@ export default function GeneratorPage() {
         }
         const formData = new FormData();
         const payload = convertToMockupRequestBody(mockup, front, back, sleeve);
-        console.log({ payload });
         formData.append("mockup", JSON.stringify(payload));
         fetcher.submit(formData, { method: "POST" });
       } catch (error) {
@@ -127,6 +149,25 @@ export default function GeneratorPage() {
               onDismiss={() => setError(null)}
             >
               <p>{error.message}</p>
+            </Banner>
+          )}
+          {loading && (
+            <Banner
+              title={"Uploading & Generating - Please don't navigate away"}
+              tone={"info"}
+            >
+              <BlockStack gap={"150"}>
+                <ProgressBar progress={progress} />
+                <Text as="h3" variant="bodyMd" tone="magic-subdued">
+                  {progress <= 20
+                    ? "Uploading Images 📸"
+                    : progress > 20 && progress <= 70
+                      ? "Creating Mockups Images 🎨"
+                      : progress > 70 && progress <= 95
+                        ? "Storing & Creating Assets 💾"
+                        : "Almost There 🥳"}
+                </Text>
+              </BlockStack>
             </Banner>
           )}
         </Layout.Section>

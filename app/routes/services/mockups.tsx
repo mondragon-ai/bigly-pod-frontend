@@ -124,8 +124,6 @@ export const createProductMockupCallback = async (
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setError: React.Dispatch<React.SetStateAction<ErrorState | null>>,
 ) => {
-  setLoading(true);
-
   try {
     const mockup = data.mockups.mockups[0];
     if (!mockup || !mockup.id) {

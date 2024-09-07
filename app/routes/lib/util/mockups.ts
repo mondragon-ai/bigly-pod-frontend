@@ -1,3 +1,5 @@
+import { MockupTypes } from "../types/mockups";
+
 export const calculatePercentage = (quantity: number) => {
   if (quantity < 25) return 0;
   if (quantity >= 25 && quantity < 50) return 5;
@@ -20,7 +22,10 @@ export const calculateDiscount = (quantity: number) => {
  * @param {number} length - The length of the string to generate.
  * @returns {string} The generated random string.
  */
-export function generateRandomString(length: number, type: string): string {
+export function generateRandomString(
+  length: number,
+  type: MockupTypes,
+): string {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let randomString = "";
@@ -30,7 +35,9 @@ export function generateRandomString(length: number, type: string): string {
     randomString += characters.charAt(randomIndex);
   }
 
-  return "POD-" + `-${type.toLocaleUpperCase().replaceAll("_", "-")}`;
+  return (
+    "POD-" + `-${generateSKUFortype(type.replaceAll("-", "_") as MockupTypes)}`
+  );
 }
 
 export const getRandomURL = (quarterTurns: {
@@ -39,4 +46,17 @@ export const getRandomURL = (quarterTurns: {
   const urls = Object.values(quarterTurns);
   const randomIndex = Math.floor(Math.random() * urls.length);
   return urls[randomIndex];
+};
+
+export const generateSKUFortype = (type: MockupTypes) => {
+  console.log({ type });
+  switch (type) {
+    case "hoodie_lane_7":
+      return "H-LN7";
+    case "shirt_gilden":
+      return "TS-GLDN";
+    default:
+      return "";
+      break;
+  }
 };

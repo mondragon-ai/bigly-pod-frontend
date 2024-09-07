@@ -116,7 +116,6 @@ export type GeneratorStateProps = MockupDocument & {
   original_file_front: null | File;
   original_file_back: null | File;
   original_file_sleeve: null | File;
-  resized_design: string;
   progress: number;
   isFront: boolean;
 };

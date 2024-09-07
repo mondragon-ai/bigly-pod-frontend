@@ -3,7 +3,7 @@
 client_id = "14e68cb64a6de2412bbbbc0c95920a58"
 name = "Bigly POD"
 handle = "bigly-pod"
-application_url = "https://bigly-pod-prod-77189af19854.herokuapp.com"
+application_url = "https://personnel-renew-seq-ken.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_assigned_fulfillment_orders,read_locations,read_merchant_managed_
 
 [auth]
 redirect_urls = [
-  "https://bigly-pod-prod-77189af19854.herokuapp.com/auth/callback",
-  "https://bigly-pod-prod-77189af19854.herokuapp.com/auth/shopify/callback",
-  "https://bigly-pod-prod-77189af19854.herokuapp.com/api/auth/callback"
+  "https://personnel-renew-seq-ken.trycloudflare.com/auth/callback",
+  "https://personnel-renew-seq-ken.trycloudflare.com/auth/shopify/callback",
+  "https://personnel-renew-seq-ken.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -41,8 +41,15 @@ export const Price = ({ order }: { order: OrderDocument }) => {
       <BlockStack gap="300">
         <div className={styles.orderBadges}>
           <div style={{ marginRight: "0.5rem" }}>
-            <Badge tone={"success"} icon={MoneyFilledIcon}>
-              Paid
+            <Badge
+              tone={
+                order.fulfillment_status === "BILLING" ? "critical" : "success"
+              }
+              icon={MoneyFilledIcon}
+            >
+              {order.fulfillment_status === "BILLING"
+                ? "Could Not Charge Marchant"
+                : "Paid"}
             </Badge>
           </div>
           <Text as="h4" variant="headingMd">

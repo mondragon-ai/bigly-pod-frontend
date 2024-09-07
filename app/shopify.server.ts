@@ -30,7 +30,7 @@ const shopify = shopifyApp({
           currencyCode: "USD",
           interval: BillingInterval.Usage,
           terms:
-            "Usage charges apply per hat sold that is generated using the mockup from the app, starting at $35 per hat.",
+            "Usage charges apply per item sold that is generated using the mockup from the app, starting at $11.",
         },
       ],
     },

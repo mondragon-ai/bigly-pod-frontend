@@ -41,7 +41,7 @@ export const useOrderData = (orderId: string) => {
           setError("Fulfillment for this location unavailable");
         } else {
           const biglyFulfillment = fulfillmentOrders.filter(
-            (ful) => ful.assignedLocation?.name === "BiglyPOD Solutions",
+            (ful) => ful.assignedLocation?.name === "BiglyPOD Fulfillment",
           );
 
           if (biglyFulfillment.length === 0) {

@@ -3,7 +3,7 @@
 client_id = "14e68cb64a6de2412bbbbc0c95920a58"
 name = "Bigly POD"
 handle = "bigly-pod"
-application_url = "https://publish-attach-reach-remember.trycloudflare.com"
+application_url = "https://bigly-pod-7d23242ed37c.herokuapp.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_assigned_fulfillment_orders,read_locations,read_merchant_managed_
 
 [auth]
 redirect_urls = [
-  "https://publish-attach-reach-remember.trycloudflare.com/auth/callback",
-  "https://publish-attach-reach-remember.trycloudflare.com/auth/shopify/callback",
-  "https://publish-attach-reach-remember.trycloudflare.com/api/auth/callback"
+  "https://bigly-pod-7d23242ed37c.herokuapp.com/auth/callback",
+  "https://bigly-pod-7d23242ed37c.herokuapp.com/auth/shopify/callback",
+  "https://bigly-pod-7d23242ed37c.herokuapp.com/api/auth/callback"
 ]
 
 [webhooks]

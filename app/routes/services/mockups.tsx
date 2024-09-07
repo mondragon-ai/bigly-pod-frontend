@@ -80,11 +80,8 @@ export const deleteMockupCallback = async (
     id: string | undefined;
   },
   fetcher: FetcherWithComponents<ResponseProp>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setError: React.Dispatch<React.SetStateAction<ErrorState | null>>,
 ) => {
-  setLoading(true);
-
   try {
     const mockup = data.mockups.mockups[0];
     if (!mockup || !mockup.id) {
@@ -93,7 +90,6 @@ export const deleteMockupCallback = async (
         message: "The mockup may have been deleted.",
         type: "critical",
       });
-      setLoading(false);
       return;
     }
 
@@ -110,7 +106,6 @@ export const deleteMockupCallback = async (
     });
     return;
   } finally {
-    setLoading(false);
   }
 };
 
@@ -121,7 +116,6 @@ export const createProductMockupCallback = async (
     id: string | undefined;
   },
   fetcher: FetcherWithComponents<ResponseProp>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setError: React.Dispatch<React.SetStateAction<ErrorState | null>>,
 ) => {
   try {
@@ -132,7 +126,6 @@ export const createProductMockupCallback = async (
         message: "The mockup may have been deleted.",
         type: "critical",
       });
-      setLoading(false);
       return;
     }
 
@@ -142,7 +135,6 @@ export const createProductMockupCallback = async (
         message: `The mockup already has a corresponding product: ${mockup.product_id}.`,
         type: "warning",
       });
-      setLoading(false);
       return;
     }
 
@@ -157,7 +149,6 @@ export const createProductMockupCallback = async (
       type: "critical",
     });
   } finally {
-    setLoading(false);
   }
 };
 
@@ -182,13 +173,10 @@ export const purchaseWholesaleCallback = async (
     product_id: string | undefined;
   },
   fetcher: FetcherWithComponents<ResponseProp>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setError: React.Dispatch<React.SetStateAction<ErrorState | null>>,
 ) => {
-  setLoading(true);
-
   try {
-    const isValid = validateWholesalePayload(payload, setError, setLoading);
+    const isValid = validateWholesalePayload(payload, setError);
 
     if (!isValid) {
       return;
@@ -204,7 +192,6 @@ export const purchaseWholesaleCallback = async (
       type: "critical",
     });
   } finally {
-    setLoading(false);
   }
 };
 
@@ -220,7 +207,6 @@ const validateWholesalePayload = (
     product_id: string | undefined;
   },
   setError: React.Dispatch<React.SetStateAction<ErrorState | null>>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   if (!payload.product_id) {
     setError({
@@ -228,7 +214,7 @@ const validateWholesalePayload = (
       message: "Purchase could not be created.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (!payload.form.color || payload.form.color == "") {
@@ -237,7 +223,7 @@ const validateWholesalePayload = (
       message: "Please select a color.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (!payload.quantity || payload.quantity == 0) {
@@ -246,7 +232,7 @@ const validateWholesalePayload = (
       message: "More than one quantity is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (!payload.form.address.address1 || payload.form.address.address1 == "") {
@@ -255,7 +241,7 @@ const validateWholesalePayload = (
       message: "Street name is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (!payload.form.address.city || payload.form.address.city == "") {
@@ -264,7 +250,7 @@ const validateWholesalePayload = (
       message: "City name is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (
@@ -276,7 +262,7 @@ const validateWholesalePayload = (
       message: "State Code is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (!payload.form.address.zip || payload.form.address.zip == "") {
@@ -285,7 +271,7 @@ const validateWholesalePayload = (
       message: "Zip code is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (
@@ -297,7 +283,7 @@ const validateWholesalePayload = (
       message: "First Name is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   if (!payload.form.email || payload.form.email == "") {
@@ -306,7 +292,7 @@ const validateWholesalePayload = (
       message: "A contact email is required.",
       type: "critical",
     });
-    setLoading(false);
+
     return false;
   }
   return true;

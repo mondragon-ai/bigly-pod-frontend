@@ -66,20 +66,15 @@ export default function MockupPage() {
 
   const handleDelete = useCallback(async () => {
     setLoading(true);
-    await deleteMockupCallback(data as any, fetcher, setLoading, setError);
-    setLoading(false);
-  }, [data, fetcher, navigate, setLoading, setError, loading]);
+    await deleteMockupCallback(data as any, fetcher, setError);
+  }, [data, fetcher, navigate, setError, loading]);
 
   const handleCreateProduct = useCallback(async () => {
     setLoading(true);
-    await createProductMockupCallback(
-      data as any,
-      fetcher,
-      setLoading,
-      setError,
-    );
-    setLoading(false);
-  }, [data, fetcher, navigate, setLoading, setError, loading]);
+    console.log("START");
+    await createProductMockupCallback(data as any, fetcher, setError);
+    console.log("END");
+  }, [data, fetcher, loading]);
 
   const { address, customer } = data;
   const handleWholesale = useCallback(
@@ -91,8 +86,7 @@ export default function MockupPage() {
         quantity,
         product_id: `${mockup ? mockup.product_id : ""}`,
       };
-      purchaseWholesaleCallback(payload, fetcher, setLoading, setError);
-      setLoading(false);
+      purchaseWholesaleCallback(payload, fetcher, setError);
     },
     [data, fetcher, navigate, setLoading, setError, loading],
   );
@@ -109,6 +103,7 @@ export default function MockupPage() {
         loading,
         navigate,
       );
+      setLoading(false);
     }
     if (loading) {
       const interval = setInterval(() => {
@@ -122,7 +117,7 @@ export default function MockupPage() {
     }
     // Reset progress when not loading
     setProgress(0);
-  }, [shopify, response, data, loading]);
+  }, [response, loading]);
 
   return (
     <Suspense fallback={<LoadingSkeleton />}>

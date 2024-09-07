@@ -58,8 +58,6 @@ export default function GeneratorPage() {
     isFront: true,
   });
 
-  console.log(mockup.base_sku);
-
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";

@@ -2,17 +2,14 @@ import { Box, Button, Card, MediaCard, VideoThumbnail } from "@shopify/polaris";
 import { useState } from "react";
 import styles from "./Home.module.css";
 
-export const VideoCard = () => {
+export const VideoCard = ({ url }: { url: string }) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   return (
     <>
       {isVideoPlaying ? (
         <div className={styles.videoWrapper}>
-          <VideoPlayer
-            onClose={() => setIsVideoPlaying(false)}
-            videoId="GL_6eXIEQx4?si=YXAxIbFAivmqXiXi"
-          />
+          <VideoPlayer onClose={() => setIsVideoPlaying(false)} url={url} />
         </div>
       ) : (
         <MediaCard
@@ -35,11 +32,11 @@ export const VideoCard = () => {
 };
 
 interface VideoPlayerProps {
-  videoId: string;
+  url: string;
   onClose: () => void;
 }
 
-export const VideoPlayer = ({ videoId, onClose }: VideoPlayerProps) => {
+export const VideoPlayer = ({ url, onClose }: VideoPlayerProps) => {
   return (
     <Card>
       <Box paddingBlock="400" width="100%">
@@ -47,7 +44,7 @@ export const VideoPlayer = ({ videoId, onClose }: VideoPlayerProps) => {
         <Box paddingBlock="400" width="100%">
           <div className={styles.iFrameCard}>
             <iframe
-              src="https://player.vimeo.com/video/1007323279?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+              src={url}
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
               style={{
                 position: "absolute",

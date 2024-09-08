@@ -21,11 +21,11 @@ export const VideoCard = () => {
             content: "Watch Now",
             onAction: () => setIsVideoPlaying(true),
           }}
-          description="Welcome to Only Caps, the ultimate POD mockup generator for hats. Easily create and sell custom hats through your Shopify store. Simply download the app, choose a hat style, upload your design, and publish your product. Orders flow seamlessly from your store to us for printing and shipping, with tracking information automatically updated."
+          description="Welcome to Bigly POD, the ultimate POD mockup generator for shirts & hoodies. Easily create and sell custom apparel through your Shopify store. Simply download the app, choose a apparel style, upload your design, and publish your product. Orders flow seamlessly from your store to us for printing and shipping, with tracking information automatically updated."
         >
           <VideoThumbnail
-            videoLength={80}
-            thumbnailUrl="https://cdn.shopify.com/s/files/1/0783/4802/6165/files/Screenshot_2024-07-27_at_11.21.58_AM.png?v=1722090175"
+            videoLength={146}
+            thumbnailUrl="https://cdn.shopify.com/s/files/1/0783/4802/6165/files/Screenshot_2024-09-07_at_11.42.19_PM.png?v=1725763369"
             onClick={() => setIsVideoPlaying(true)}
           />
         </MediaCard>
@@ -47,9 +47,19 @@ export const VideoPlayer = ({ videoId, onClose }: VideoPlayerProps) => {
         <Box paddingBlock="400" width="100%">
           <div className={styles.iFrameCard}>
             <iframe
-              src={`https://www.youtube.com/embed/${videoId}`}
+              src="https://player.vimeo.com/video/1007323279?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
               className={styles.iframe}
               allowFullScreen
+              title="Initial Video - How To"
             ></iframe>
           </div>
         </Box>

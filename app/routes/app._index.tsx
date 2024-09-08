@@ -75,7 +75,9 @@ export default function Index() {
                 <Layout.Section>
                   <ProFroma />
                 </Layout.Section>
-                <Layout.Section>{/* <VideoCard /> */}</Layout.Section>
+                <Layout.Section>
+                  <VideoCard />
+                </Layout.Section>
                 <Layout.Section>
                   <RecommendedApps />
                 </Layout.Section>

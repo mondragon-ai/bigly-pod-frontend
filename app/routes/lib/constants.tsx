@@ -1,4 +1,4 @@
-export const SERVER_BASE_URL = true
+export const SERVER_BASE_URL = false
   ? "http://127.0.0.1:5001/pod-bigly/us-central1"
   : "https://us-central1-pod-bigly.cloudfunctions.net";
 

@@ -31,6 +31,29 @@ export const deleteOrderCallback = async (
 };
 
 /**
+ * Handles the Order deletion.
+ * @param {FetcherWithComponents<ResponseProp>} fetcher - The fetcher to submit the request.
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setLoading - Function to set the loading state.
+ * @param {React.Dispatch<React.SetStateAction<ErrorState | null>>} setError - Function to set the error state.
+ */
+export const chargeOrderCallback = async (
+  fetcher: FetcherWithComponents<ResponseProp>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+): Promise<void> => {
+  setLoading(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("action", "charge");
+    fetcher.submit(formData, { method: "POST" });
+  } catch (error) {
+    console.error("Error deleting orders:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+/**
  * Creates the payload required for the delete request.
  * @param {string[]} ids - The IDs of the orders to delete.
  * @param {string} shop - The shop domain.

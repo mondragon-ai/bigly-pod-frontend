@@ -6,8 +6,8 @@ import {
 } from "@remix-run/react";
 import { OrderDocument } from "./lib/types/orders";
 import { Footer } from "./components/layout/Footer";
-import { DeleteIcon } from "@shopify/polaris-icons";
-import { deleteOrderCallback } from "./services/orders";
+import { DeleteIcon, MoneyIcon } from "@shopify/polaris-icons";
+import { chargeOrderCallback, deleteOrderCallback } from "./services/orders";
 import { LoadingSkeleton } from "./components/skeleton";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { formatDateLong } from "./lib/formatters/numbers";
@@ -39,6 +39,10 @@ export default function OrdersPage() {
     await deleteOrderCallback(fetcher, setLoading);
   }, [fetcher]);
 
+  const handleCharge = useCallback(async () => {
+    await chargeOrderCallback(fetcher, setLoading);
+  }, [fetcher]);
+
   useEffect(() => {
     if (response) {
       handleMockupResponse(response, shopify, setError, setLoading);
@@ -68,6 +72,18 @@ export default function OrdersPage() {
                 destructive: true,
                 onAction: handleDelete,
               }}
+              secondaryActions={[
+                {
+                  content: "Charge & Fulfill",
+                  disabled:
+                    order.fulfillment_status !== "BILLING" ||
+                    isLoading ||
+                    loading,
+                  loading: isLoading || loading,
+                  icon: MoneyIcon,
+                  onAction: handleCharge,
+                },
+              ]}
             >
               <Layout>
                 <Layout.Section>
@@ -121,14 +137,25 @@ function handleMockupResponse(
   setError: Function,
   setLoading: Function,
 ) {
+  console.log(response.type);
   if (response.error) {
     setError({
-      title: response.type === "DELETE" ? "Deleting Order" : "Unknown Error",
+      title: response.type === "delete" ? "Deleting Order" : "Charging Error",
       message: response.error,
       type: "critical",
     });
   } else {
-    shopify.toast.show("Order Deleted");
+    switch (response.type) {
+      case "charge":
+        shopify.toast.show("Order Charged & Fulfilled");
+        break;
+      case "delete":
+        shopify.toast.show("Order Deleted");
+        break;
+
+      default:
+        break;
+    }
   }
   setLoading(false);
 }

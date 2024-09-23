@@ -79,6 +79,54 @@ const constructDeleteUrl = (
 };
 
 // ! ================================================================
+// ? Charge Order
+// ! ================================================================
+/**
+ * Deletes an order or multiple orders for a shop.
+ * @param {string} shop - The Shopify shop domain.
+ * @param {string | string[]} orderId - The order ID or list of order IDs to delete.
+ * @param {boolean} isBulk - Indicates if the operation is a bulk delete.
+ * @returns {Promise<ResponseProp>} The response object containing the result or error.
+ */
+export const chargeAndFulfill = async (
+  shop: string,
+  orderId: string,
+): Promise<ResponseProp> => {
+  try {
+    if (!orderId) {
+      throw new Error("Please provide IDs to be chaged.");
+    }
+
+    const url = `${SERVER_BASE_URL}/store/${shop}/orders/fulfill?id=${orderId}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    return {
+      shop,
+      result: data,
+      error: response.ok ? null : "Failed to charge orders.",
+      status: 400,
+      type: "charge",
+    };
+  } catch (error) {
+    console.error("Error charge order:", error);
+    return {
+      shop,
+      result: null,
+      error: "Server Error: Unable to charge order. Please try again later.",
+      status: 500,
+      type: "charge",
+    };
+  }
+};
+
+// ! ================================================================
 // ? Orders Page (list)
 // ! ================================================================
 
@@ -259,13 +307,28 @@ export async function orderAction({ request, params }: ActionFunctionArgs) {
       return redirect("/app/orders", 303);
     }
 
+    if (type == "charge") {
+      response = await chargeAndFulfill(shop, params.id);
+      console.log({ response });
+      return json(
+        {
+          shop,
+          result: response.result,
+          error: response.error,
+          status: response.status,
+          type: response.type,
+        } as ResponseProp,
+        { status: 400 },
+      );
+    }
+
     return json(
       {
         shop,
         result: null,
         error: "Invalid Action",
         status: 400,
-        type: "DELETE",
+        type: "delete",
       } as ResponseProp,
       { status: 400 },
     );
@@ -277,7 +340,7 @@ export async function orderAction({ request, params }: ActionFunctionArgs) {
         result: null,
         error: "Server Error",
         status: 500,
-        type: "DELETE",
+        type: "delete",
       } as ResponseProp,
       { status: 500 },
     );

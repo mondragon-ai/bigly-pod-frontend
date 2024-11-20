@@ -12,7 +12,7 @@ export const uploadToServer = async (
     alert("Please choose a file first!");
     throw new Error("File not present");
   } else {
-    const name = `${"" || ""}_${new Date().getTime()}`;
+    const name = `${mockup.domain || ""}_${new Date().getTime()}`;
 
     // Call Firebase storage bucket
     const storageRef = ref(
@@ -20,7 +20,16 @@ export const uploadToServer = async (
       `/${mockup.domain || "mockups"}/designs/${name}`,
     );
 
-    const uploadTask = uploadBytesResumable(storageRef, image);
+    // Define metadata
+    const metadata = {
+      contentType: image.type,
+      customMetadata: {
+        uploadedBy: "bigly-pod",
+        domain: mockup.domain || "unknown",
+      },
+    };
+
+    const uploadTask = uploadBytesResumable(storageRef, image, metadata);
 
     const url = await new Promise<string>((resolve, reject) => {
       uploadTask.on(
@@ -29,7 +38,6 @@ export const uploadToServer = async (
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
           );
-          // Update progress
           setMockup((prev) => ({
             ...prev,
             percent: progress,
